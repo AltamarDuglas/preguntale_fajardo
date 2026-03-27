@@ -1,0 +1,330 @@
+/*
+ * Archivo de Estilos - Estética Oficial "¡BIENVENIDOS!" (Nueva Imagen)
+ * Colores: Amarillo de fondo, Texto Azul Marino Vivo.
+ */
+
+:root {
+    --bg-main: #F9A01B; /* Amarillo intenso de fondo (Fajardo Oficial) */
+    --text-primary: #00377E; /* Azul Marino (Texto) */
+    --text-accent: #B82510; /* Rojo (Subtítulos/Énfasis) */
+    
+    --card-bg: rgba(255, 255, 255, 0.85); /* Glassmorphism para legibilidad */
+    --input-bg: #FFF9F0; 
+    
+    --radius-xl: 0; /* Layout de página moderna */
+    --radius-lg: 12px;
+    --radius-md: 8px;
+    
+    --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', system-ui, sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    min-height: 100vh;
+}
+
+.page {
+    /* Fondo principal de la página ya es amarillo */
+    display: flex;
+    justify-content: center;
+    padding: 0;
+}
+
+/* Estilos de Landing App */
+.app-container {
+    width: 100%;
+    max-width: 600px;
+    background: var(--bg-main);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    box-shadow: 0 0 100px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+}
+
+.hero-image-v2 {
+    width: 100%;
+    aspect-ratio: 16/9;
+    overflow: hidden;
+    border-bottom: 4px solid var(--text-primary);
+}
+
+.hero-image-v2 img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.app-header {
+    padding: 40px 32px 20px;
+}
+
+.brand-row {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+.brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.avatar {
+    display: none; /* Ocultamos el avatar para priorizar el titular gigante */
+}
+
+.brand strong {
+    font-size: 2.8rem;
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    color: var(--text-primary);
+    text-transform: uppercase;
+}
+
+.brand small {
+    display: block;
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--text-accent);
+}
+
+.content {
+    padding: 20px 32px 140px;
+}
+
+.welcome-text {
+    margin-bottom: 32px;
+}
+
+.welcome-text h3 {
+    color: var(--text-accent);
+    font-size: 1.25rem;
+    font-weight: 800;
+    margin-bottom: 8px;
+}
+
+.welcome-text p {
+    font-size: 1.1rem;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.screen { display: none; }
+.screen.active { 
+    display: block;
+    animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Formulario Estilo Captura */
+.card {
+    background: transparent; /* Sin fondo de tarjeta para imitar la captura */
+    padding: 0;
+    margin-bottom: 32px;
+    border: none;
+    box-shadow: none;
+}
+
+.card h2, .card h3 {
+    font-size: 1.4rem;
+    font-weight: 800;
+    margin-bottom: 12px;
+    color: var(--text-primary);
+}
+
+.sub {
+    font-weight: 600;
+    line-height: 1.4;
+    margin-bottom: 16px;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+
+.stat {
+    background: var(--input-bg);
+    border: 2px solid var(--text-primary);
+    border-radius: var(--radius-md);
+    padding: 12px 6px;
+}
+
+.stat strong {
+    font-size: 1.4rem;
+    font-weight: 900;
+    color: var(--text-accent);
+}
+
+.stat span {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+label {
+    display: block;
+    font-size: 1.15rem;
+    font-weight: 800;
+    margin-bottom: 8px;
+    color: var(--text-primary);
+}
+
+input[type="text"], textarea {
+    width: 100%;
+    background-color: var(--input-bg);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 14px 18px;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+}
+
+.actions {
+    margin-top: 24px;
+}
+
+.btn {
+    padding: 16px 24px;
+    border-radius: 12px;
+    font-weight: 900;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    border: none;
+    width: 100%;
+    transition: transform 0.2s ease;
+}
+
+.btn-primary {
+    background-color: var(--text-primary);
+    color: white;
+}
+
+.btn-primary:active {
+    transform: scale(0.98);
+}
+
+.btn-secondary {
+    background-color: white;
+    color: var(--text-primary);
+    border: 2px solid var(--text-primary);
+    margin-bottom: 12px;
+}
+
+.chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.chip {
+    background: white;
+    color: var(--text-primary);
+    border: 2px solid var(--text-primary);
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-weight: 800;
+}
+
+.remaining {
+    background: white;
+    border: 2px solid var(--text-primary);
+    padding: 12px 20px;
+    border-radius: 10px;
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 800;
+}
+
+.remaining strong {
+    color: var(--text-accent);
+    font-size: 1.4rem;
+}
+
+.question-list { display: grid; gap: 16px; }
+
+.question-card {
+    background: white;
+    border: 2px solid var(--text-primary);
+    border-radius: 14px;
+    padding: 20px;
+}
+
+.pill {
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 800;
+}
+
+.pill.ready { background: #dcfce7; color: #15803d; border: 1px solid #166534; }
+.pill.pending { background: #fef3c7; color: #b45309; border: 1px solid #92400e; }
+
+.answer {
+    margin-top: 16px;
+    padding: 18px;
+    background: #FFFAF0;
+    border: 1px solid var(--text-primary);
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+/* Navegación App */
+.app-nav {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(90%, 540px);
+    background: #FFF;
+    border: 2px solid var(--text-primary);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    padding: 6px;
+    gap: 6px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    z-index: 1000;
+}
+
+.nav-btn {
+    border: none;
+    background: transparent;
+    padding: 12px 10px;
+    font-weight: 800;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    color: var(--text-primary);
+    cursor: pointer;
+}
+
+.nav-btn.active {
+    background: var(--bg-main);
+}
+
+@media (max-width: 600px) {
+    .content { padding: 24px 20px 140px; }
+    .brand strong { font-size: 2.2rem; }
+}
