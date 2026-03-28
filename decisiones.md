@@ -78,6 +78,12 @@ Para incentivar el descubrimiento de contenido profundo sin sacrificar la intera
 - **Animación `pulseFloating`:** Se aplicó una animación infinita de flotación sutil al botón de propuestas. 
 - **Objetivo:** Captar el foco visual del usuario tras realizar sus preguntas, induciendo al descubrimiento voluntario del Plan de Gobierno mediante señales dinámicas de atracción (Affordance visual).
 
+## 15. Solución al Mobile Viewport Bug (100dvh)
+Para resolver el scroll inesperado en navegadores móviles (donde la barra de direcciones consume espacio no contabilizado por `100vh`):
+- **Dynamic Viewport Units (`dvh`):** Se implementó `height: 100dvh` en el contenedor principal, asegurando que el layout se adapte dinámicamente al área visible real.
+- **Overscroll Lock:** Se aplicó `overscroll-behavior: none` y `position: fixed` en `html/body` para bloquear el efecto de rebote elástico.
+- **Compactación Adaptativa:** Se establecieron media queries agresivas para reducir el `line-height` y `paddings` en dispositivos con altura reducida, garantizando que el Inicio nunca exceda el alto de la pantalla.
+
 ## 11. Diseño Segmentado (Cero Scroll)
 Para resolver la fatiga de scroll y la desorganización visual:
 - **Segmented Control:** Se implementó un selector de pestañas interno en el `HomeScreen` para alternar entre *Propuesta* y *Preguntar*.
