@@ -28,3 +28,6 @@ Para garantizar un despliegue óptimo en plataformas modernas (como Vercel) y me
 - **Custom Hooks:** La lógica imperativa que existía en `script.js` fue extraída a Custom Hooks de React (`useNavigation`, `useQuestions`), separando por completo el estado global de la presentación UI.
 - **Validaciones Puras:** Se mantuvo el `ValidationManager` exportándolo como un módulo de funciones puras en `src/utils/validation.js`, lo cual facilita el Testing en el futuro.
 - **Vite como Bundler:** Sustituye el uso básico de archivos sueltos para proveer empaquetado optimizado (minificación, tree-shaking) y Hot Module Replacement en desarrollo, acelerando la iteración.
+
+## 5. Ajuste de Experiencia Inmersiva (Background)
+A petición de la dirección de diseño, se retiró la imagen HERO fotográfica (`background.png`) de la cabecera del contenedor central. En su lugar, se movió la imagen como el fondo (`background-image`) general de la página utilizando la propiedad CSS `fixed`. Para mantener una alta legibilidad del texto en el contenedor central, se aplicó una superposición amarilla translúcida (`rgba(249, 160, 27, 0.85)`) en ese el contenedor principal con el filtro moderno CSS `backdrop-filter: blur(8px)`.

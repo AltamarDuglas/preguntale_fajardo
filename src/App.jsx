@@ -14,10 +14,6 @@ export default function App() {
   return (
     <main className="page">
       <section className="app-container">
-        <div className="hero-image-v2">
-            <img src="/background.png" alt="Equipo de Campaña" />
-        </div>
-        
         <Header />
 
         <section className="content">
