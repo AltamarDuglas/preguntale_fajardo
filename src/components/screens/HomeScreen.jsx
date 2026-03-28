@@ -86,11 +86,11 @@ export default function HomeScreen({ navigateTo, remaining, submitQuestion }) {
             {/* ACCESO A PROPUESTAS (REDUCIDO) */}
             <div style={{ marginTop: '20px', textAlign: 'center' }}>
                 <button 
-                    className="btn btn-secondary" 
+                    className="btn btn-secondary btn-floating-cta" 
                     onClick={() => navigateTo('screen-proposals')}
-                    style={{ background: 'white', border: '2px dashed var(--text-primary)', textTransform: 'none', fontSize: '0.9rem', width: 'auto', padding: '10px 20px' }}
+                    style={{ background: 'white', border: '2px dashed var(--text-primary)', textTransform: 'none', fontSize: '1rem', width: 'auto', padding: '10px 24px', fontWeight: 800 }}
                 >
-                    Ver Propuestas Detalladas para Colombia
+                    Descubre nuestras propuestas ➔
                 </button>
             </div>
         </div>

@@ -73,6 +73,11 @@ Para garantizar una experiencia visual ágil y "limpia" (sin barras de scroll in
 - **Compactación Dinámica:** Se redujeron los rellenos (`padding`) del cabezote y márgenes internos del `HomeScreen` para asegurar que todo el eje interactivo quepa "Above the fold" en dispositivos móviles estándar.
 - **Scroll de Contenido:** Se preservó la capacidad de desplazamiento vertical en las pantallas de **Propuestas** e **Historial**, donde la extensión del texto sí justifica la barra de scroll.
 
+## 14. Micro-interacciones de Atención (Floating CTA)
+Para incentivar el descubrimiento de contenido profundo sin sacrificar la interactividad del Inicio:
+- **Animación `pulseFloating`:** Se aplicó una animación infinita de flotación sutil al botón de propuestas. 
+- **Objetivo:** Captar el foco visual del usuario tras realizar sus preguntas, induciendo al descubrimiento voluntario del Plan de Gobierno mediante señales dinámicas de atracción (Affordance visual).
+
 ## 11. Diseño Segmentado (Cero Scroll)
 Para resolver la fatiga de scroll y la desorganización visual:
 - **Segmented Control:** Se implementó un selector de pestañas interno en el `HomeScreen` para alternar entre *Propuesta* y *Preguntar*.

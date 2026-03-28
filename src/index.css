@@ -125,6 +125,16 @@ html, body {
     animation: fadeSlideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
+@keyframes pulseFloating {
+    0% { transform: translateY(0); box-shadow: 0 4px 10px rgba(0, 55, 126, 0.1); }
+    50% { transform: translateY(-3px); box-shadow: 0 8px 18px rgba(0, 55, 126, 0.2); }
+    100% { transform: translateY(0); box-shadow: 0 4px 10px rgba(0, 55, 126, 0.1); }
+}
+
+.btn-floating-cta {
+    animation: pulseFloating 2s infinite ease-in-out;
+}
+
 @keyframes fadeSlideUp {
     from { 
         opacity: 0; 
