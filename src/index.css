@@ -44,12 +44,13 @@ html, body {
     background: rgba(249, 160, 27, 0.85); /* Amarillo translúcido para mantener legibilidad */
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    min-height: 100vh;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     position: relative;
     box-shadow: 0 0 100px rgba(0, 0, 0, 0.3);
     margin: 0 auto;
+    overflow: hidden;
 }
 
 
@@ -93,7 +94,11 @@ html, body {
 }
 
 .content {
-    padding: 20px 32px 140px;
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 32px 100px;
+    display: flex;
+    flex-direction: column;
 }
 
 .welcome-text {
@@ -128,6 +133,23 @@ html, body {
         opacity: 1; 
         transform: translateY(0);
     }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.fade-in {
+    animation: fadeIn 0.3s ease;
+}
+
+.segmented-control button {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.segmented-control button:active {
+    transform: scale(0.96);
 }
 
 /* Formulario Estilo Captura */

@@ -59,3 +59,9 @@ Para corregir la desorganización percibida y centrar la atención del electorad
 - **Unificación de Pantallas:** Se eliminaron las capas de navegación profunda (`AskScreen`, `CordobaScreen`). La página se transformó en una *Single Landing App* donde el mensaje persuasivo y el formulario de participación conviven en el `HomeScreen`.
 - **Pivot Nacional:** Se re-encuadraron los compromisos regionales de Córdoba hacia un plano nacional (**Colombia**), articulando el macro-frame del PDF (*"Seguridad, Educación y Economía"*) como la base del contrato social propuesto.
 - **Reducción de Fricción:** El formulario de "Pregúntale a Sergio" ahora es el núcleo interactivo visible desde el primer scroll, eliminando pasos innecesarios y focalizando la UX en la resolución de dudas ciudadanas.
+
+## 11. Diseño Segmentado (Cero Scroll)
+Para resolver la fatiga de scroll y la desorganización visual:
+- **Segmented Control:** Se implementó un selector de pestañas interno en el `HomeScreen` para alternar entre *Propuesta* y *Preguntar*.
+- **Ventaja UX:** Esta técnica permite mantener todo el contenido crítico "Above the fold" (visible sin scroll), garantizando que el usuario pueda actuar (preguntar) o informarse (mensaje) instantáneamente según su interés, sin perder el contexto del cabezote institucional.
+- **Contención Visual:** El uso de un contenedor con `flex: 1` y `overflow: auto` asegura que la aplicación se sienta como una herramienta nativa y no como una página web larga y pesada.
