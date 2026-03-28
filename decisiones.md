@@ -60,6 +60,13 @@ Para corregir la desorganización percibida y centrar la atención del electorad
 - **Pivot Nacional:** Se re-encuadraron los compromisos regionales de Córdoba hacia un plano nacional (**Colombia**), articulando el macro-frame del PDF (*"Seguridad, Educación y Economía"*) como la base del contrato social propuesto.
 - **Reducción de Fricción:** El formulario de "Pregúntale a Sergio" ahora es el núcleo interactivo visible desde el primer scroll, eliminando pasos innecesarios y focalizando la UX en la resolución de dudas ciudadanas.
 
+## 12. Navegación Jerarquizada (Interactúa, Informa, Sigue)
+Para equilibrar la simplicidad con la profundidad del mensaje político:
+- **Estructura de 3 Puntos:** Se evolucionó hacia una navegación de 3 pestañas (**Inicio, Propuestas, Historial**).
+- **HomeScreen (Interactúa):** 100% focalizado en la acción de preguntar. Se eliminaron bloques de texto largos para garantizar el "Cero Scroll" en la interacción principal.
+- **ProposalsScreen (Informa):** Pantalla dedicada al contenido detallado del PDF. Se implementó una narrativa visual con Sergio Fajardo (Sombrero Vueltiao) como Header, seguida de un desglose técnico de los pilares de Seguridad, Educación y Economía.
+- **VentajaUX:** El usuario puede elegir entre la participación rápida (Inicio) o el estudio profundo del programa (Propuestas) sin que un contenido entorpezca al otro.
+
 ## 11. Diseño Segmentado (Cero Scroll)
 Para resolver la fatiga de scroll y la desorganización visual:
 - **Segmented Control:** Se implementó un selector de pestañas interno en el `HomeScreen` para alternar entre *Propuesta* y *Preguntar*.
