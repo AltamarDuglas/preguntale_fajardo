@@ -67,6 +67,12 @@ Para equilibrar la simplicidad con la profundidad del mensaje político:
 - **ProposalsScreen (Informa):** Pantalla dedicada al contenido detallado del PDF. Se implementó una narrativa visual con Sergio Fajardo (Sombrero Vueltiao) como Header, seguida de un desglose técnico de los pilares de Seguridad, Educación y Economía.
 - **VentajaUX:** El usuario puede elegir entre la participación rápida (Inicio) o el estudio profundo del programa (Propuestas) sin que un contenido entorpezca al otro.
 
+## 13. Optimización de Scroll Selectivo
+Para garantizar una experiencia visual ágil y "limpia" (sin barras de scroll innecesarias):
+- **Layout Híbrido:** Se configuró el contenedor `.content` para que use `overflow-y: hidden` exclusivamente en el **Inicio** mediante selectores relacionales CSS (`:has`). 
+- **Compactación Dinámica:** Se redujeron los rellenos (`padding`) del cabezote y márgenes internos del `HomeScreen` para asegurar que todo el eje interactivo quepa "Above the fold" en dispositivos móviles estándar.
+- **Scroll de Contenido:** Se preservó la capacidad de desplazamiento vertical en las pantallas de **Propuestas** e **Historial**, donde la extensión del texto sí justifica la barra de scroll.
+
 ## 11. Diseño Segmentado (Cero Scroll)
 Para resolver la fatiga de scroll y la desorganización visual:
 - **Segmented Control:** Se implementó un selector de pestañas interno en el `HomeScreen` para alternar entre *Propuesta* y *Preguntar*.

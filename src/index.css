@@ -56,7 +56,8 @@ html, body {
 
 
 .app-header {
-    padding: 40px 32px 20px;
+    padding: 30px 32px 10px;
+    flex-shrink: 0;
 }
 
 .brand-row {
@@ -380,7 +381,19 @@ input[type="text"]:focus, textarea:focus {
     box-shadow: 0 2px 8px rgba(249, 160, 27, 0.5);
 }
 
+/* Control de Scroll por Pantalla */
+.content:has(#screen-home) {
+    overflow-y: hidden;
+    padding-top: 5px;
+}
+
+.content:has(#screen-proposals), 
+.content:has(#screen-history) {
+    overflow-y: auto;
+}
+
 @media (max-width: 600px) {
-    .content { padding: 24px 20px 140px; }
+    .content { padding: 10px 20px 100px; }
+    .content:has(#screen-home) { padding-bottom: 20px; }
     .brand strong { font-size: 2.2rem; }
 }
