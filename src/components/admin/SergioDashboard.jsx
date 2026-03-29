@@ -41,9 +41,12 @@ export default function SergioDashboard({ user, onLogout }) {
             .eq('id', currentQuestion.id);
 
         if (!error) {
+            alert('¡Respuesta oficial enviada con éxito!');
             setMessage('Respuesta enviada con éxito.');
             setCurrentQuestion(null);
         } else {
+            console.error('Error Supabase:', error);
+            alert('Error al enviar la respuesta: ' + error.message);
             setMessage('Error al enviar la respuesta.');
         }
     };

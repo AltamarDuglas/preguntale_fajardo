@@ -63,7 +63,7 @@ export default function App() {
             <ProposalsScreen />
           )}
           {currentScreen === 'screen-history' && (
-            <HistoryScreen questions={questions} />
+            <HistoryScreen questions={questions} refresh={refresh} />
           )}
         </section>
 

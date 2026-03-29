@@ -2,16 +2,14 @@
  * HistoryScreen - Historial de Compromisos Ciudadanos
  * Sincronizado con estados de Supabase (PENDING, ANSWERED)
  */
-export default function HistoryScreen({ questions = [] }) {
+export default function HistoryScreen({ questions = [], refresh }) {
     if (!questions || questions.length === 0) {
         return (
             <div className="screen active" id="screen-history">
                 <div className="card" style={{ textAlign: 'center', padding: '40px 20px' }}>
                     <div style={{ fontSize: '3rem', marginBottom: '20px' }}>✉️</div>
                     <h3 style={{ margin: 0, color: 'var(--text-primary)' }}>Aún no has preguntado</h3>
-                    <p style={{ opacity: 0.7, fontSize: '0.9rem', marginTop: '10px' }}>
-                        Tus inquietudes son el motor del Cambio Serio de Sergio Fajardo.
-                    </p>
+                    <button className="btn btn-secondary" onClick={refresh} style={{ marginTop: '15px', fontSize: '0.8rem' }}>Actualizar historial</button>
                 </div>
             </div>
         );
@@ -19,11 +17,16 @@ export default function HistoryScreen({ questions = [] }) {
 
     return (
         <div className="screen active" id="screen-history" style={{ paddingBottom: '100px' }}>
-            <div className="card" style={{ marginBottom: '20px' }}>
-                <h2 style={{ fontSize: '1.5rem', margin: 0 }}>Tu historial</h2>
-                <p style={{ fontSize: '0.85rem', opacity: 0.8, marginTop: '5px' }}>
-                    Seguimiento en tiempo real de tus consultas oficiales.
-                </p>
+            <div className="card" style={{ marginBottom: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div>
+                    <h2 style={{ fontSize: '1.5rem', margin: 0 }}>Tu historial</h2>
+                    <p style={{ fontSize: '0.85rem', opacity: 0.8, marginTop: '5px' }}>Sincronizado con Sergio.</p>
+                </div>
+                <button 
+                    onClick={refresh} 
+                    style={{ background: 'var(--bg-main)', border: '2px solid var(--text-primary)', borderRadius: '50%', width: '40px', height: '40px', fontSize: '1.2rem', cursor: 'pointer' }}
+                    title="Actualizar respuestas"
+                >🔄</button>
             </div>
 
             <div className="question-list" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
