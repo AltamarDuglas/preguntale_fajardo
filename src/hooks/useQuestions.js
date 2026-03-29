@@ -1,61 +1,72 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 /**
- * Custom Hook para gestionar el histórico de preguntas.
- * SOLID - Single Responsibility Principle: Gestiona el estado y lógica 
- * del conteo de preguntas y simulación de respuestas.
+ * useQuestions - Sincronización Real con Backend NestJS/Supabase
+ * Gestiona el historial de consultas basándose en la identidad (Teléfono).
  */
 export function useQuestions() {
-    const [remaining, setRemaining] = useState(3);
-    const [questions, setQuestions] = useState([
-        {
-            id: 'demo-1',
-            text: '¿Qué propone Sergio para apoyar a los jóvenes que buscan empleo?',
-            status: 'ready',
-            isRecent: false,
-            answer: 'Sergio plantea fortalecer rutas de formación para el trabajo, alianzas con empresas locales y programas que conecten capacitación con oportunidades reales para jóvenes.',
-            timeLabel: 'Consulta reciente'
-        }
-    ]);
+    const [questions, setQuestions] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [phone, setPhone] = useState(null);
 
-    const submitQuestion = (texto, onSuccess) => {
-        if (remaining <= 0) return;
-        
-        setRemaining(prev => prev - 1);
-        
-        const newQuestion = {
-            id: Date.now().toString(),
-            text: texto,
-            status: 'pending',
-            isRecent: true,
-            answer: null,
-            timeLabel: 'Hace un momento'
+    // Cargar identidad al iniciar
+    useEffect(() => {
+        const savedIdentity = localStorage.getItem('fajardo_identity');
+        if (savedIdentity) {
+            const { phone: savedPhone } = JSON.parse(savedIdentity);
+            setPhone(savedPhone);
+        }
+    }, [questions.length]); // Re-evaluar si cambia el historial
+
+    // Cargar preguntas desde la API
+    useEffect(() => {
+        if (!phone) return;
+
+        const fetchQuestions = async () => {
+            setLoading(true);
+            try {
+                // Suponiendo un endpoint que filtre por teléfono (o el usuario logueado en Supabase)
+                // Para este MVP, pedimos las preguntas del usuario al backend.
+                const res = await fetch(`http://localhost:3001/questions/by-phone/${phone}`);
+                if (res.ok) {
+                    const data = await res.json();
+                    setQuestions(Array.isArray(data) ? data : [data]);
+                }
+            } catch (err) {
+                console.error('Error cargando historial:', err);
+            } finally {
+                setLoading(false);
+            }
         };
 
-        setQuestions(prev => [newQuestion, ...prev]);
-        
-        if (onSuccess) onSuccess();
+        fetchQuestions();
+    }, [phone]);
 
-        // Simular respuesta después de 2.8 segundos
-        setTimeout(() => {
-            setQuestions(currentQuestions => 
-                currentQuestions.map(q => 
-                    q.id === newQuestion.id 
-                    ? { 
-                        ...q, 
-                        status: 'ready', 
-                        answer: 'Gracias por tu interés en nuestras propuestas. Sergio Fajardo está comprometido con la transparencia y el desarrollo sostenible. Tu pregunta ha sido procesada y esta respuesta refleja nuestra postura oficial sobre el tema consultado.',
-                        timeLabel: 'Respondida hace unos segundos'
-                      }
-                    : q
-                )
-            );
-        }, 2800);
+    const submitQuestion = async (qData, onSuccess) => {
+        try {
+            const res = await fetch('http://localhost:3001/questions', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(qData)
+            });
+
+            if (res.ok) {
+                const data = await res.json();
+                setQuestions(prev => [data, ...prev]);
+                if (onSuccess) onSuccess();
+            } else {
+                const error = await res.json();
+                alert(error.message || 'Error al enviar');
+            }
+        } catch (err) {
+            alert('Error de conexión con el servidor.');
+        }
     };
 
     return {
-        remaining,
         questions,
-        submitQuestion
+        loading,
+        submitQuestion,
+        remaining: 1 - questions.length // Lógica de 1 pregunta x usuario
     };
 }
