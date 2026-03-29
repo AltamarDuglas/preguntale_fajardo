@@ -4,7 +4,7 @@
  */
 export default function Navigation({ currentScreen, navigateTo }) {
     return (
-        <nav className="app-nav" style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
+        <nav className="app-nav" style={{ gridTemplateColumns: 'repeat(4, 1fr)' }}>
             <button 
                 className={`nav-btn ${currentScreen === 'screen-home' ? 'active' : ''}`} 
                 onClick={() => navigateTo('screen-home')}
@@ -17,6 +17,10 @@ export default function Navigation({ currentScreen, navigateTo }) {
                 className={`nav-btn ${currentScreen === 'screen-history' ? 'active' : ''}`} 
                 onClick={() => navigateTo('screen-history')}
             >Historial</button>
+            <button 
+                className={`nav-btn ${currentScreen === 'admin-portal' ? 'active' : ''}`} 
+                onClick={() => navigateTo('admin-portal')}
+            >Gestión</button>
         </nav>
     );
 }
