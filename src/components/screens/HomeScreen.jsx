@@ -1,99 +1,127 @@
-import { useState } from 'react';
-import { ValidationManager } from '../../utils/validation';
+import { useState, useEffect } from 'react';
 
 /**
- * HomeScreen - Versión Compacta (Cero Scroll)
- * SOLID - SRP: Interactividad ciudadana en una sola vista.
+ * HomeScreen UX 4.0 - Identidad Ciudadana
+ * Foco: Nombre + Teléfono (1 Pregunta x Usuario)
+ * SOLID - SRP: Gestión delegada de identidad y envío.
  */
-export default function HomeScreen({ navigateTo, remaining, submitQuestion }) {
-    const [code, setCode] = useState('');
-    const [terms, setTerms] = useState(false);
+export default function HomeScreen({ navigateTo, submitQuestion }) {
+    const [name, setName] = useState('');
+    const [phone, setPhone] = useState('');
     const [questionText, setQuestionText] = useState('');
-    const [isActivated, setIsActivated] = useState(false);
+    const [isIdentified, setIsIdentified] = useState(false);
+    const [error, setError] = useState('');
 
-    const handleActivate = () => {
-        if (ValidationManager.isValidActivation(code, terms)) {
-            setIsActivated(true);
+    // Recuperar identidad de cache/localStorage para persistencia silenciosa
+    useEffect(() => {
+        const savedIdentity = localStorage.getItem('fajardo_identity');
+        if (savedIdentity) {
+            const { name: savedName, phone: savedPhone } = JSON.parse(savedIdentity);
+            setName(savedName);
+            setPhone(savedPhone);
+            setIsIdentified(true);
+        }
+    }, []);
+
+    const handleIdentify = () => {
+        if (name.trim() && phone.trim().length >= 7) {
+            const identity = { name, phone };
+            localStorage.setItem('fajardo_identity', JSON.stringify(identity));
+            setIsIdentified(true);
+            setError('');
+        } else {
+            setError('Por favor ingresa tu nombre y un teléfono válido.');
         }
     };
 
     const handleSend = () => {
-        if (ValidationManager.isValidQuestion(questionText, remaining)) {
-            submitQuestion(questionText, () => {
+        if (questionText.trim()) {
+            submitQuestion({ name, phone, text: questionText }, () => {
                 setQuestionText('');
                 navigateTo('screen-history');
             });
+        } else {
+            setError('Escribe tu pregunta antes de enviar.');
         }
     };
 
     return (
         <div className="screen active no-scroll-view" id="screen-home" style={{ display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'flex-start', paddingTop: '10px' }}>
             
-            {/* TITULAR COMPACTO */}
+            {/* TITULAR ESTRATÉGICO */}
             <div className="welcome-text" style={{ textAlign: 'center', marginBottom: '8px' }}>
                 <h3 style={{ fontSize: '1.25rem', color: 'var(--text-primary)', margin: 0, lineHeight: 1.1 }}>
-                    Pregúntale a <br/> Sergio Fajardo
+                    Plataforma de Escucha <br/> Sergio Fajardo
                 </h3>
                 <p style={{ fontWeight: 600, color: 'var(--text-accent)', fontSize: '0.8rem', margin: '4px 0 0' }}>
-                    Tu voz es el motor de este Cambio Serio
+                    Sin intermediarios, de ciudadano a líder.
                 </p>
             </div>
 
-            {/* FORMULARIO DE INTERACCIÓN (ALTURA FIJA Y COMPACTA) */}
+            {/* FORMULARIO DE IDENTIDAD / PREGUNTA */}
             <section className="interaction-hub" style={{ flexShrink: 1, overflow: 'hidden' }}>
-                {!isActivated ? (
+                {!isIdentified ? (
                     <div className="card" style={{ background: 'white', border: '2px solid var(--text-primary)', padding: '12px 16px', borderRadius: '16px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
-                        <h4 style={{ fontSize: '1rem', marginBottom: '6px' }}>Activa tu acceso</h4>
+                        <h4 style={{ fontSize: '1rem', marginBottom: '6px' }}>Identifícate para participar</h4>
+                        <p style={{ fontSize: '0.75rem', marginBottom: '12px', color: 'rgba(0,0,0,0.6)' }}>Solo puedes realizar una pregunta por número telefónico.</p>
+                        
                         <input 
-                            id="codeInput" 
                             type="text" 
-                            placeholder="Ej: SERGIO-7Q2M" 
-                            value={code}
-                            onChange={(e) => setCode(e.target.value)}
+                            placeholder="Tu nombre completo" 
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
                             style={{ marginBottom: '8px', padding: '10px', fontSize: '0.9rem' }}
                         />
-                        <div className="check" style={{ marginBottom: '12px' }}>
-                            <input 
-                                id="termsCheck" 
-                                type="checkbox" 
-                                checked={terms}
-                                onChange={(e) => setTerms(e.target.checked)}
-                            />
-                            <label htmlFor="termsCheck" style={{ margin:0, fontWeight:400, fontSize: '0.7rem', display: 'inline', marginLeft: '6px' }}>
-                                Acepto participar en este diálogo.
-                            </label>
-                        </div>
-                        <button className="btn btn-primary" onClick={handleActivate} style={{ padding: '10px', fontSize: '0.9rem' }}>Comenzar</button>
+                        <input 
+                            type="tel" 
+                            placeholder="Tu número de teléfono" 
+                            value={phone}
+                            onChange={(e) => setPhone(e.target.value)}
+                            style={{ marginBottom: '12px', padding: '10px', fontSize: '0.9rem' }}
+                        />
+
+                        {error && <p style={{ color: 'red', fontSize: '0.7rem', marginBottom: '8px' }}>{error}</p>}
+
+                        <button className="btn btn-primary" onClick={handleIdentify} style={{ padding: '10px', fontSize: '0.9rem' }}>
+                            Continuar a Preguntar
+                        </button>
                     </div>
                 ) : (
-                    <div className="card" style={{ background: 'white', border: '2px solid var(--text-primary)', padding: '12px 16px', borderRadius: '16px' }}>
+                    <div className="card" style={{ background: 'white', border: '2px solid var(--text-primary)', padding: '12px 16px', borderRadius: '16px', animation: 'fadeIn 0.4s ease-out' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px', background: 'var(--input-bg)', padding: '6px 10px', borderRadius: '6px' }}>
-                            <span style={{ fontSize: '0.75rem', fontWeight: 700 }}>Consultas:</span>
-                            <strong style={{ color: 'var(--text-accent)', fontSize: '1rem' }}>{remaining}</strong>
+                            <span style={{ fontSize: '0.75rem', fontWeight: 700 }}>Hola, {name.split(' ')[0]}</span>
+                            <button 
+                                onClick={() => { localStorage.removeItem('fajardo_identity'); setIsIdentified(false); }}
+                                style={{ background: 'none', border: 'none', color: 'var(--text-accent)', fontSize: '0.65rem', textDecoration: 'underline', cursor: 'pointer' }}
+                            >Cambiar datos</button>
                         </div>
                         <textarea 
                             id="questionInput"
-                            placeholder="¿Qué proponemos?"
+                            placeholder="Escribe aquí tu consulta para Sergio o su equipo técnico..."
                             value={questionText}
                             onChange={(e) => setQuestionText(e.target.value)}
-                            style={{ minHeight: '90px', maxHeight: '120px', marginBottom: '8px', fontSize: '0.95rem', padding: '10px' }}
+                            style={{ minHeight: '100px', maxHeight: '140px', marginBottom: '8px', fontSize: '0.95rem', padding: '10px' }}
                         ></textarea>
-                        <button className="btn btn-primary" onClick={handleSend} style={{ padding: '10px', fontSize: '1rem' }}>Enviar consulta ➔</button>
+                        
+                        {error && <p style={{ color: 'red', fontSize: '0.7rem', marginBottom: '8px' }}>{error}</p>}
+
+                        <button className="btn btn-primary" onClick={handleSend} style={{ padding: '10px', fontSize: '1rem' }}>
+                            Enviar mi compromiso ➔
+                        </button>
                     </div>
                 )}
             </section>
 
-            {/* ACCESO A PROPUESTAS (REDUCIDO) */}
+            {/* ACCESO A PROPUESTAS */}
             <div style={{ marginTop: '10px', textAlign: 'center' }}>
                 <button 
                     className="btn btn-secondary btn-floating-cta" 
                     onClick={() => navigateTo('screen-proposals')}
                     style={{ background: 'white', border: '2px dashed var(--text-primary)', textTransform: 'none', fontSize: '0.85rem', width: 'auto', padding: '8px 16px', fontWeight: 800 }}
                 >
-                    Descubre nuestras propuestas ➔
+                    Explora el Plan de Gobierno ➔
                 </button>
             </div>
         </div>
     );
-
 }
