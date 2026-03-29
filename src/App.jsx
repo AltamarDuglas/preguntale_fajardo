@@ -16,7 +16,7 @@ import AdminDashboard from './components/admin/AdminDashboard';
  */
 export default function App() {
   const { currentScreen, navigateTo } = useNavigation();
-  const { remaining, questions, submitQuestion } = useQuestions();
+  const { remaining, questions, submitQuestion, refresh } = useQuestions();
   const [adminUser, setAdminUser] = useState(null);
 
   // Verificar sesión administrativa al cargar
