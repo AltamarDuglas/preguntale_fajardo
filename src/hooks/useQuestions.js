@@ -3,46 +3,47 @@ import { supabase } from '../lib/supabaseClient';
 
 /**
  * useQuestions - Sincronización Serverless Directa con Supabase
+ * Optimizado para evitar errores de relación (Joins) inexistentes.
  */
 export function useQuestions() {
     const [questions, setQuestions] = useState([]);
     const [loading, setLoading] = useState(false);
 
-    // Cargar preguntas desde Supabase basándose en el teléfono guardado
     useEffect(() => {
-        const fetchQuestions = async () => {
-            const savedIdentity = localStorage.getItem('fajardo_identity');
-            if (!savedIdentity) return;
-
-            const { phone } = JSON.parse(savedIdentity);
-            setLoading(true);
-
-            const { data, error } = await supabase
-                .from('questions')
-                .select('*, profiles(name)')
-                .eq('phone', phone)
-                .order('created_at', { ascending: false });
-
-            if (error) console.error('Error:', error);
-            else setQuestions(data || []);
-            setLoading(false);
-        };
-
         fetchQuestions();
     }, []);
+
+    const fetchQuestions = async () => {
+        const savedIdentity = localStorage.getItem('fajardo_identity');
+        if (!savedIdentity) return;
+
+        const { phone } = JSON.parse(savedIdentity);
+        setLoading(true);
+
+        const { data, error } = await supabase
+            .from('questions')
+            .select('*') // Eliminamos el join con profiles para evitar errores PGRST200
+            .eq('phone', phone)
+            .order('created_at', { ascending: false });
+
+        if (error) console.error('Error cargando historial:', error);
+        else setQuestions(data || []);
+        setLoading(false);
+    };
 
     const submitQuestion = async (qData, onSuccess) => {
         setLoading(true);
         
-        // 1. Verificar si ya existe una pregunta para este teléfono
+        // 1. Verificar si ya existe una pregunta 
+        // (Nota: RLS o un índice único en 'phone' en Supabase es más seguro)
         const { data: existing } = await supabase
             .from('questions')
             .select('id')
             .eq('phone', qData.phone)
-            .single();
+            .maybeSingle();
 
         if (existing) {
-            alert('Solo puedes realizar una pregunta por número telefónico.');
+            alert('Ya tenemos una consulta registrada con este número telefónico.');
             setLoading(false);
             return;
         }
@@ -72,6 +73,7 @@ export function useQuestions() {
         questions,
         loading,
         submitQuestion,
-        remaining: 1 - questions.length
+        remaining: 1 - questions.length,
+        refresh: fetchQuestions
     };
 }
