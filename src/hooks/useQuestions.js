@@ -1,72 +1,77 @@
 import { useState, useEffect } from 'react';
+import { supabase } from '../lib/supabaseClient';
 
 /**
- * useQuestions - Sincronización Real con Backend NestJS/Supabase
- * Gestiona el historial de consultas basándose en la identidad (Teléfono).
+ * useQuestions - Sincronización Serverless Directa con Supabase
  */
 export function useQuestions() {
     const [questions, setQuestions] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [phone, setPhone] = useState(null);
 
-    // Cargar identidad al iniciar
+    // Cargar preguntas desde Supabase basándose en el teléfono guardado
     useEffect(() => {
-        const savedIdentity = localStorage.getItem('fajardo_identity');
-        if (savedIdentity) {
-            const { phone: savedPhone } = JSON.parse(savedIdentity);
-            setPhone(savedPhone);
-        }
-    }, [questions.length]); // Re-evaluar si cambia el historial
-
-    // Cargar preguntas desde la API
-    useEffect(() => {
-        if (!phone) return;
-
         const fetchQuestions = async () => {
+            const savedIdentity = localStorage.getItem('fajardo_identity');
+            if (!savedIdentity) return;
+
+            const { phone } = JSON.parse(savedIdentity);
             setLoading(true);
-            try {
-                // Suponiendo un endpoint que filtre por teléfono (o el usuario logueado en Supabase)
-                // Para este MVP, pedimos las preguntas del usuario al backend.
-                const res = await fetch(`http://localhost:3001/questions/by-phone/${phone}`);
-                if (res.ok) {
-                    const data = await res.json();
-                    setQuestions(Array.isArray(data) ? data : [data]);
-                }
-            } catch (err) {
-                console.error('Error cargando historial:', err);
-            } finally {
-                setLoading(false);
-            }
+
+            const { data, error } = await supabase
+                .from('questions')
+                .select('*, profiles(name)')
+                .eq('phone', phone)
+                .order('created_at', { ascending: false });
+
+            if (error) console.error('Error:', error);
+            else setQuestions(data || []);
+            setLoading(false);
         };
 
         fetchQuestions();
-    }, [phone]);
+    }, []);
 
     const submitQuestion = async (qData, onSuccess) => {
-        try {
-            const res = await fetch('http://localhost:3001/questions', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(qData)
-            });
+        setLoading(true);
+        
+        // 1. Verificar si ya existe una pregunta para este teléfono
+        const { data: existing } = await supabase
+            .from('questions')
+            .select('id')
+            .eq('phone', qData.phone)
+            .single();
 
-            if (res.ok) {
-                const data = await res.json();
-                setQuestions(prev => [data, ...prev]);
-                if (onSuccess) onSuccess();
-            } else {
-                const error = await res.json();
-                alert(error.message || 'Error al enviar');
-            }
-        } catch (err) {
-            alert('Error de conexión con el servidor.');
+        if (existing) {
+            alert('Solo puedes realizar una pregunta por número telefónico.');
+            setLoading(false);
+            return;
         }
+
+        // 2. Insertar nueva pregunta
+        const { data, error } = await supabase
+            .from('questions')
+            .insert([{
+                text: qData.text,
+                name: qData.name,
+                phone: qData.phone,
+                status: 'PENDING'
+            }])
+            .select()
+            .single();
+
+        if (error) {
+            alert('Error al enviar la pregunta.');
+        } else {
+            setQuestions(prev => [data, ...prev]);
+            if (onSuccess) onSuccess();
+        }
+        setLoading(false);
     };
 
     return {
         questions,
         loading,
         submitQuestion,
-        remaining: 1 - questions.length // Lógica de 1 pregunta x usuario
+        remaining: 1 - questions.length
     };
 }
