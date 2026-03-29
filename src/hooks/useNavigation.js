@@ -8,7 +8,10 @@ export function useNavigation(initialScreen = 'screen-home') {
     const [currentScreen, setCurrentScreen] = useState(initialScreen);
 
     const navigateTo = (screenId) => {
-        setCurrentScreen(screenId);
+        // Permitir navegación al portal administrativo o pantallas ciudadanas
+        if (screenId === 'admin-portal' || document.getElementById(screenId) || screenId.startsWith('screen-')) {
+            setCurrentScreen(screenId);
+        }
     };
 
     return {

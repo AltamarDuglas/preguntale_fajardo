@@ -408,6 +408,33 @@ input[type="text"]:focus, textarea:focus {
     overflow-y: auto;
 }
 
+/* Animación de la Ruleta */
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(1080deg); } /* 3 giros completos */
+}
+
+.spinning {
+    animation: spin 1.5s cubic-bezier(0.17, 0.67, 0.83, 0.67) forwards;
+}
+
+.roulette-wheel {
+    box-shadow: 0 0 40px rgba(249, 160, 27, 0.4);
+    position: relative;
+    overflow: hidden;
+}
+
+.roulette-wheel::after {
+    content: '';
+    position: absolute;
+    top: -10px;
+    width: 0; 
+    height: 0; 
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-top: 25px solid var(--text-accent);
+}
+
 @media (max-width: 600px) {
     .content { padding: 5px 20px 80px; }
     .content:has(#screen-home) { padding-bottom: 20px; }

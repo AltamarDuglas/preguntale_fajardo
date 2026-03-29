@@ -6,6 +6,9 @@ import Navigation from './components/layout/Navigation';
 import HomeScreen from './components/screens/HomeScreen';
 import ProposalsScreen from './components/screens/ProposalsScreen';
 import HistoryScreen from './components/screens/HistoryScreen';
+import AdminLogin from './components/admin/AdminLogin';
+import SergioDashboard from './components/admin/SergioDashboard';
+import AdminDashboard from './components/admin/AdminDashboard';
 
 /**
  * App Root - Versión UX 3.0 (Interactúa + Informa + Sigue)
@@ -13,6 +16,33 @@ import HistoryScreen from './components/screens/HistoryScreen';
 export default function App() {
   const { currentScreen, navigateTo } = useNavigation();
   const { remaining, questions, submitQuestion } = useQuestions();
+  const [adminUser, setAdminUser] = useState(null);
+
+  // Verificar sesión administrativa al cargar
+  useEffect(() => {
+    const savedSession = localStorage.getItem('fajardo_admin_session');
+    if (savedSession) {
+        setAdminUser(JSON.parse(savedSession).user);
+    }
+  }, []);
+
+  const handleAdminLogout = () => {
+    localStorage.removeItem('fajardo_admin_session');
+    setAdminUser(null);
+  };
+
+  // RENDERIZADO DE VISTAS ADMINISTRATIVAS
+  if (currentScreen === 'admin-portal') {
+    if (!adminUser) {
+        return <AdminLogin onLoginSuccess={(user) => setAdminUser(user)} />;
+    }
+
+    if (adminUser.role === 'ADMIN') {
+        return <AdminDashboard user={adminUser} onLogout={handleAdminLogout} />;
+    }
+
+    return <SergioDashboard user={adminUser} onLogout={handleAdminLogout} />;
+  }
 
   return (
     <main className="page">
