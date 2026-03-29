@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { useNavigation } from './hooks/useNavigation';
 import { useQuestions } from './hooks/useQuestions';
 
