@@ -1,9 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { supabase } from '../../lib/supabaseClient';
 
 /**
  * SergioDashboard Premium - Ruleta estilo Tragamonedas (Slot Machine)
- * Visualización de nombres deslizantes y revelación animada.
  */
 export default function SergioDashboard({ user, onLogout }) {
     const [allQuestions, setAllQuestions] = useState([]);
@@ -11,11 +10,13 @@ export default function SergioDashboard({ user, onLogout }) {
     const [answer, setAnswer] = useState('');
     const [isSpinning, setIsSpinning] = useState(false);
     const [message, setMessage] = useState('');
+    const textareaRef = useRef(null); // <--- NUEVO
     
     // Estados para la animación de la Slot Machine
     const [visualNames, setVisualNames] = useState([]);
     const [offset, setOffset] = useState(0);
     const [showCard, setShowCard] = useState(false);
+    const [transitionEnabled, setTransitionEnabled] = useState(false); // <--- NUEVO
 
     const spinRoulette = async () => {
         if (isSpinning) return;
@@ -25,6 +26,9 @@ export default function SergioDashboard({ user, onLogout }) {
         setCurrentQuestion(null);
         setAnswer('');
         setMessage('');
+        
+        // RESET INSTANTÁNEO: Quitamos la transición para volver al inicio sin que se vea el scroll hacia arriba
+        setTransitionEnabled(false);
         setOffset(0);
 
         // 1. Obtener las preguntas pendientes
@@ -40,33 +44,38 @@ export default function SergioDashboard({ user, onLogout }) {
         }
 
         // 2. Preparar la lista visual (Slot Strip)
-        // Duplicamos los nombres para que el scroll se vea largo y profesional
         const winnerIndex = Math.floor(Math.random() * data.length);
         const winner = data[winnerIndex];
         
-        // Creamos una lista larga (ej: 40 nombres antes del ganador final)
         let tempNames = [];
-        for (let i = 0; i < 40; i++) {
+        // Llenamos la tira con nombres aleatorios
+        for (let i = 0; i < 30; i++) {
             const randomName = data[Math.floor(Math.random() * data.length)].name;
             tempNames.push(randomName);
         }
-        tempNames.push(winner.name); // El nombre número 41 es el ganador
+        tempNames.push(winner.name); // El ganador al final de la tira
         
         setVisualNames(tempNames);
 
-        // 3. Iniciar la animación de scroll
-        // Esperamos un pequeño frame para que React renderice la tira antes de moverla
+        // 3. Iniciar la animación de scroll con un pequeño delay para que el navegador capte el reset
         setTimeout(() => {
-            const finalOffset = (tempNames.length - 1) * 90; // 90px es la altura de cada nombre en CSS
-            setOffset(finalOffset);
+            setTransitionEnabled(true); // Re-activamos la transición suave
+            setTimeout(() => {
+                const finalOffset = (tempNames.length - 1) * 90; 
+                setOffset(finalOffset);
+            }, 50);
         }, 50);
 
-        // 4. Finalizar después de que termine la transición de CSS (3 segundos en el CSS)
+        // 4. Finalizar después de la animación
         setTimeout(() => {
             setIsSpinning(false);
             setCurrentQuestion(winner);
             setShowCard(true);
-        }, 3200);
+            // Autofoco en el textarea después de que la animación de pop-in empiece
+            setTimeout(() => {
+                if (textareaRef.current) textareaRef.current.focus();
+            }, 600);
+        }, 3500); 
     };
 
     const handleAnswer = async () => {
@@ -104,7 +113,10 @@ export default function SergioDashboard({ user, onLogout }) {
                 <div className="slot-indicator"></div>
                 <div 
                     className="slot-strip" 
-                    style={{ transform: `translateY(-${offset}px)` }}
+                    style={{ 
+                        transform: `translateY(-${offset}px)`,
+                        transition: transitionEnabled ? 'transform 3s cubic-bezier(0.15, 0, 0.1, 1)' : 'none' 
+                    }}
                 >
                     {visualNames.length === 0 ? (
                         <div className="slot-name">LISTO PARA GIRAR</div>
@@ -140,6 +152,7 @@ export default function SergioDashboard({ user, onLogout }) {
                         <p style={{ fontSize: '1.2rem', marginBottom: '25px', lineHeight: 1.4, fontWeight: 500 }}>"{currentQuestion.text}"</p>
                         
                         <textarea 
+                            ref={textareaRef}
                             placeholder="Escribe tu compromiso aquí, Sergio..."
                             value={answer} 
                             onChange={(e) => setAnswer(e.target.value)} 
