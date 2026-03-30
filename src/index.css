@@ -4,23 +4,31 @@
  */
 
 :root {
-    --bg-main: #F9A01B; /* Amarillo intenso de fondo (Fajardo Oficial) */
-    --text-primary: #00377E; /* Azul Marino (Texto) */
-    --text-accent: #B82510; /* Rojo (Subtítulos/Énfasis) */
-    
-    --card-bg: rgba(255, 255, 255, 0.85); /* Glassmorphism para legibilidad */
-    --input-bg: #FFF9F0; 
-    
-    --radius-xl: 0; /* Layout de página moderna */
+    --bg-main: #F9A01B;
+    /* Amarillo intenso de fondo (Fajardo Oficial) */
+    --text-primary: #00377E;
+    /* Azul Marino (Texto) */
+    --text-accent: #B82510;
+    /* Rojo (Subtítulos/Énfasis) */
+
+    --card-bg: rgba(255, 255, 255, 0.85);
+    /* Glassmorphism para legibilidad */
+    --input-bg: #FFF9F0;
+
+    --radius-xl: 0;
+    /* Layout de página moderna */
     --radius-lg: 12px;
     --radius-md: 8px;
-    
+
     --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
-* { box-sizing: border-box; }
+* {
+    box-sizing: border-box;
+}
 
-html, body {
+html,
+body {
     margin: 0;
     padding: 0;
     font-family: 'Inter', system-ui, sans-serif;
@@ -46,7 +54,8 @@ html, body {
 .app-container {
     width: 100%;
     max-width: 600px;
-    background: rgba(249, 160, 27, 0.85); /* Amarillo translúcido para mantener legibilidad */
+    background: rgba(249, 160, 27, 0.85);
+    /* Amarillo translúcido para mantener legibilidad */
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     height: 100vh;
@@ -62,7 +71,8 @@ html, body {
 
 
 .app-header {
-    padding: 10px 32px 0px; /* Comprimido al máximo para cero brecha con el contenido */
+    padding: 10px 32px 0px;
+    /* Comprimido al máximo para cero brecha con el contenido */
     flex-shrink: 0;
 }
 
@@ -80,11 +90,13 @@ html, body {
 }
 
 .avatar {
-    display: none; /* Ocultamos el avatar para priorizar el titular gigante */
+    display: none;
+    /* Ocultamos el avatar para priorizar el titular gigante */
 }
 
 .brand strong {
-    font-size: 1.9rem; /* Reducido de 2.8rem - era demasiado alto en móviles */
+    font-size: 1.9rem;
+    /* Reducido de 2.8rem - era demasiado alto en móviles */
     font-weight: 900;
     line-height: 0.95;
     letter-spacing: -0.04em;
@@ -94,7 +106,8 @@ html, body {
 
 .brand small {
     display: block;
-    font-size: 0.8rem; /* Reducido para que no compita en tamaño con el slogan */
+    font-size: 1rem;
+    /* Reducido para que no compita en tamaño con el slogan */
     font-weight: 700;
     text-transform: uppercase;
     color: var(--text-accent);
@@ -109,7 +122,8 @@ html, body {
 }
 
 .welcome-text {
-    margin-bottom: 4px; /* Reducido: el espacio lo maneja el gap del flex padre */
+    margin-bottom: 4px;
+    /* Reducido: el espacio lo maneja el gap del flex padre */
 }
 
 .welcome-text h3 {
@@ -125,16 +139,30 @@ html, body {
     line-height: 1.4;
 }
 
-.screen { display: none; }
-.screen.active { 
+.screen {
+    display: none;
+}
+
+.screen.active {
     display: block;
     animation: fadeSlideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 @keyframes pulseFloating {
-    0% { transform: translateY(0); box-shadow: 0 4px 10px rgba(0, 55, 126, 0.1); }
-    50% { transform: translateY(-3px); box-shadow: 0 8px 18px rgba(0, 55, 126, 0.2); }
-    100% { transform: translateY(0); box-shadow: 0 4px 10px rgba(0, 55, 126, 0.1); }
+    0% {
+        transform: translateY(0);
+        box-shadow: 0 4px 10px rgba(0, 55, 126, 0.1);
+    }
+
+    50% {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 18px rgba(0, 55, 126, 0.2);
+    }
+
+    100% {
+        transform: translateY(0);
+        box-shadow: 0 4px 10px rgba(0, 55, 126, 0.1);
+    }
 }
 
 .btn-floating-cta {
@@ -142,19 +170,25 @@ html, body {
 }
 
 @keyframes fadeSlideUp {
-    from { 
-        opacity: 0; 
+    from {
+        opacity: 0;
         transform: translateY(15px);
     }
-    to { 
-        opacity: 1; 
+
+    to {
+        opacity: 1;
         transform: translateY(0);
     }
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 .fade-in {
@@ -171,14 +205,16 @@ html, body {
 
 /* Formulario Estilo Captura */
 .card {
-    background: transparent; /* Sin fondo de tarjeta para imitar la captura */
+    background: transparent;
+    /* Sin fondo de tarjeta para imitar la captura */
     padding: 0;
     margin-bottom: 32px;
     border: none;
     box-shadow: none;
 }
 
-.card h2, .card h3 {
+.card h2,
+.card h3 {
     font-size: 1.4rem;
     font-weight: 800;
     margin-bottom: 12px;
@@ -224,7 +260,8 @@ label {
     color: var(--text-primary);
 }
 
-input[type="text"], textarea {
+input[type="text"],
+textarea {
     width: 100%;
     background-color: var(--input-bg);
     border: 1px solid rgba(0, 55, 126, 0.2);
@@ -233,12 +270,13 @@ input[type="text"], textarea {
     font-size: 1rem;
     font-weight: 500;
     color: var(--text-primary);
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
     transition: box-shadow 0.2s ease, border-color 0.2s ease;
     outline: none;
 }
 
-input[type="text"]:focus, textarea:focus {
+input[type="text"]:focus,
+textarea:focus {
     border-color: var(--text-primary);
     box-shadow: 0 0 0 3px rgba(0, 55, 126, 0.15);
 }
@@ -327,7 +365,10 @@ input[type="text"]:focus, textarea:focus {
     font-size: 1.4rem;
 }
 
-.question-list { display: grid; gap: 16px; }
+.question-list {
+    display: grid;
+    gap: 16px;
+}
 
 .question-card {
     background: white;
@@ -343,8 +384,17 @@ input[type="text"]:focus, textarea:focus {
     font-weight: 800;
 }
 
-.pill.ready { background: #dcfce7; color: #15803d; border: 1px solid #166534; }
-.pill.pending { background: #fef3c7; color: #b45309; border: 1px solid #92400e; }
+.pill.ready {
+    background: #dcfce7;
+    color: #15803d;
+    border: 1px solid #166534;
+}
+
+.pill.pending {
+    background: #fef3c7;
+    color: #b45309;
+    border: 1px solid #92400e;
+}
 
 .answer {
     margin-top: 16px;
@@ -371,7 +421,7 @@ input[type="text"]:focus, textarea:focus {
     grid-template-columns: repeat(3, 1fr);
     padding: 8px;
     gap: 8px;
-    box-shadow: 0 14px 40px rgba(0,0,0,0.25);
+    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.25);
     z-index: 1000;
 }
 
@@ -398,9 +448,23 @@ input[type="text"]:focus, textarea:focus {
 }
 
 @keyframes navAttentionGlow {
-    0% { transform: translateY(0); box-shadow: 0 0 0 rgba(249, 160, 27, 0); }
-    50% { transform: translateY(-4px); box-shadow: 0 8px 15px rgba(249, 160, 27, 0.4); background: rgba(249, 160, 27, 0.2); color: var(--text-accent); border-radius: 14px; }
-    100% { transform: translateY(0); box-shadow: 0 0 0 rgba(249, 160, 27, 0); }
+    0% {
+        transform: translateY(0);
+        box-shadow: 0 0 0 rgba(249, 160, 27, 0);
+    }
+
+    50% {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 15px rgba(249, 160, 27, 0.4);
+        background: rgba(249, 160, 27, 0.2);
+        color: var(--text-accent);
+        border-radius: 14px;
+    }
+
+    100% {
+        transform: translateY(0);
+        box-shadow: 0 0 0 rgba(249, 160, 27, 0);
+    }
 }
 
 .nav-btn.attention:not(.active) {
@@ -411,12 +475,14 @@ input[type="text"]:focus, textarea:focus {
 
 /* Control de Scroll por Pantalla */
 .content:has(#screen-home) {
-    overflow-y: hidden; /* CERO SCROLL: Bloqueado a petición para hacer que encaje */
+    overflow-y: hidden;
+    /* CERO SCROLL: Bloqueado a petición para hacer que encaje */
     padding-top: 0px;
-    padding-bottom: 80px; /* Asegurar espacio para la botonera */
+    padding-bottom: 80px;
+    /* Asegurar espacio para la botonera */
 }
 
-.content:has(#screen-proposals), 
+.content:has(#screen-proposals),
 .content:has(#screen-history) {
     overflow-y: auto;
 }
@@ -431,9 +497,10 @@ input[type="text"]:focus, textarea:focus {
     border-radius: 16px;
     position: relative;
     overflow: hidden;
-    box-shadow: inset 0 8px 15px rgba(0,0,0,0.1), 0 10px 30px rgba(249, 160, 27, 0.4);
+    box-shadow: inset 0 8px 15px rgba(0, 0, 0, 0.1), 0 10px 30px rgba(249, 160, 27, 0.4);
     display: flex;
-    align-items: flex-start; /* CRÍTICO: Debe estar al inicio, no al centro, para que el translateY sea correcto */
+    align-items: flex-start;
+    /* CRÍTICO: Debe estar al inicio, no al centro, para que el translateY sea correcto */
     justify-content: center;
 }
 
@@ -473,8 +540,15 @@ input[type="text"]:focus, textarea:focus {
 }
 
 @keyframes cardPopIn {
-    0% { transform: scale(0.8) translateY(20px); opacity: 0; }
-    100% { transform: scale(1) translateY(0); opacity: 1; }
+    0% {
+        transform: scale(0.8) translateY(20px);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+    }
 }
 
 .winner-card {
@@ -483,8 +557,15 @@ input[type="text"]:focus, textarea:focus {
 
 /* Animación de la Ruleta */
 @keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(1080deg); } /* 3 giros completos */
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(1080deg);
+    }
+
+    /* 3 giros completos */
 }
 
 .spinning {
@@ -501,23 +582,42 @@ input[type="text"]:focus, textarea:focus {
     content: '';
     position: absolute;
     top: -10px;
-    width: 0; 
-    height: 0; 
+    width: 0;
+    height: 0;
     border-left: 15px solid transparent;
     border-right: 15px solid transparent;
     border-top: 25px solid var(--text-accent);
 }
 
 @media (max-width: 600px) {
-    .content { padding: 5px 20px 80px; }
-    .content:has(#screen-home) { padding-bottom: 20px; }
-    .brand strong { font-size: 1.6rem; } /* Aún más compacto en pantallas chicas */
-    .app-header { padding: 8px 20px 0px; } /* Móvil: sin espacio muerto arriba ni abajo */
+    .content {
+        padding: 5px 20px 80px;
+    }
+
+    .content:has(#screen-home) {
+        padding-bottom: 20px;
+    }
+
+    .brand strong {
+        font-size: 1.6rem;
+    }
+
+    /* Aún más compacto en pantallas chicas */
+    .app-header {
+        padding: 8px 20px 0px;
+    }
+
+    /* Móvil: sin espacio muerto arriba ni abajo */
 
     /* Forzar que el card no sea muy alto en móviles pequeños */
-    .card { margin-bottom: 12px; }
-    .welcome-text { margin-bottom: 8px; }
-    
+    .card {
+        margin-bottom: 12px;
+    }
+
+    .welcome-text {
+        margin-bottom: 8px;
+    }
+
     /* Evitar desbordamiento de la navegación con 4 botones */
     .app-nav {
         width: 95%;
@@ -525,6 +625,7 @@ input[type="text"]:focus, textarea:focus {
         gap: 4px;
         bottom: 15px;
     }
+
     .nav-btn {
         font-size: 0.65rem;
         padding: 10px 2px;
