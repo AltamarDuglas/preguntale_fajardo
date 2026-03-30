@@ -36,7 +36,7 @@ export default function App() {
   // RENDERIZADO DE VISTAS ADMINISTRATIVAS
   if (currentScreen === 'admin-portal') {
     if (!adminUser) {
-        return <AdminLogin onLoginSuccess={(user) => setAdminUser(user)} />;
+        return <AdminLogin onLoginSuccess={(user) => setAdminUser(user)} navigateTo={navigateTo} />;
     }
 
     if (adminUser.role === 'ADMIN') {
