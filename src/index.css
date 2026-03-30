@@ -62,7 +62,7 @@ html, body {
 
 
 .app-header {
-    padding: 24px 32px 0px; /* Reducido para eliminar espacio muerto */
+    padding: 10px 32px 0px; /* Comprimido al máximo para cero brecha con el contenido */
     flex-shrink: 0;
 }
 
@@ -109,7 +109,7 @@ html, body {
 }
 
 .welcome-text {
-    margin-bottom: 32px;
+    margin-bottom: 4px; /* Reducido: el espacio lo maneja el gap del flex padre */
 }
 
 .welcome-text h3 {
@@ -512,7 +512,7 @@ input[type="text"]:focus, textarea:focus {
     .content { padding: 5px 20px 80px; }
     .content:has(#screen-home) { padding-bottom: 20px; }
     .brand strong { font-size: 2rem; }
-    .app-header { padding: 20px 20px 5px; }
+    .app-header { padding: 8px 20px 0px; } /* Móvil: sin espacio muerto arriba ni abajo */
 
     /* Forzar que el card no sea muy alto en móviles pequeños */
     .card { margin-bottom: 12px; }
