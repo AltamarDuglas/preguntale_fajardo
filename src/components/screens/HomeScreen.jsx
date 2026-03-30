@@ -177,54 +177,34 @@ export default function HomeScreen({ navigateTo, submitQuestion, totalCount }) {
                     <div className="card" style={{ 
                         background: 'white', 
                         border: '3px solid var(--text-primary)', 
-                        padding: '20px', 
+                        padding: '24px 20px', 
                         borderRadius: '24px', 
                         boxShadow: '8px 8px 0 var(--text-primary)',
-                        animation: 'fadeIn 0.4s ease-out' 
+                        animation: 'fadeIn 0.4s ease-out',
+                        textAlign: 'center'
                     }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px', background: 'var(--bg-main)', padding: '8px 12px', borderRadius: '12px', border: '1.5px solid var(--text-primary)' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '25px', background: 'var(--bg-main)', padding: '10px 14px', borderRadius: '12px', border: '1.5px solid var(--text-primary)' }}>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                                 <div style={{ width: '8px', height: '8px', background: '#4caf50', borderRadius: '50%' }}></div>
-                                <span style={{ fontSize: '0.85rem', fontWeight: 800, color: 'var(--text-primary)' }}>Hola, {name.split(' ')[0]}</span>
+                                <span style={{ fontSize: '0.9rem', fontWeight: 900, color: 'var(--text-primary)' }}>Hola, {name.split(' ')[0]}</span>
                             </div>
                             <button 
                                 onClick={() => { localStorage.removeItem('fajardo_identity'); setIsIdentified(false); }}
-                                style={{ background: 'none', border: 'none', color: 'var(--text-accent)', fontSize: '0.7rem', fontWeight: 800, textDecoration: 'underline', cursor: 'pointer', padding: 0 }}
+                                style={{ background: 'white', border: '2px solid var(--text-primary)', borderRadius: '8px', color: 'var(--text-accent)', fontSize: '0.7rem', fontWeight: 800, padding: '4px 8px', cursor: 'pointer' }}
                             >CAMBIAR</button>
                         </div>
                         
-                        <div style={{ position: 'relative' }}>
-                            <textarea 
-                                id="questionInput"
-                                placeholder="Escribe aquí tu consulta para Sergio o su equipo técnico..."
-                                value={questionText}
-                                onChange={(e) => setQuestionText(e.target.value)}
-                                style={{ 
-                                    minHeight: '120px', 
-                                    maxHeight: '180px', 
-                                    marginBottom: '12px', 
-                                    fontSize: '1rem', 
-                                    padding: '14px',
-                                    borderRadius: '16px',
-                                    border: '2.5px solid var(--text-primary)',
-                                    background: '#fcfcfc',
-                                    lineHeight: 1.4
-                                }}
-                            ></textarea>
-                            <div style={{ position: 'absolute', right: '12px', bottom: '22px', fontSize: '0.65rem', fontWeight: 800, opacity: 0.4, color: 'var(--text-primary)' }}>
-                                COMPROMISO 2026
-                            </div>
+                        <div style={{ width: '60px', height: '60px', background: 'var(--input-bg)', borderRadius: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 15px', border: '2px solid var(--text-primary)' }}>
+                            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="var(--text-accent)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg>
                         </div>
                         
-                        {error && (
-                            <div style={{ color: '#d32f2f', fontSize: '0.75rem', marginBottom: '12px', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '5px' }}>
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                                {error}
-                            </div>
-                        )}
+                        <h4 style={{ fontSize: '1.2rem', fontWeight: 900, marginBottom: '8px', color: 'var(--text-primary)' }}>Tu Identidad Confirmada</h4>
+                        <p style={{ fontSize: '0.85rem', color: 'var(--text-primary)', opacity: 0.8, fontWeight: 600, marginBottom: '25px', lineHeight: 1.4 }}>
+                            Ya estás listo para enviar tu compromiso o pregunta al equipo de Sergio Fajardo.
+                        </p>
 
-                        <button className="btn btn-primary" onClick={handleSend} style={{ 
-                            padding: '16px', 
+                        <button className="btn btn-primary btn-floating-cta" onClick={() => navigateTo('screen-question')} style={{ 
+                            padding: '18px', 
                             fontSize: '1.1rem', 
                             borderRadius: '16px', 
                             width: '100%',
@@ -234,8 +214,8 @@ export default function HomeScreen({ navigateTo, submitQuestion, totalCount }) {
                             justifyContent: 'center',
                             gap: '10px'
                         }}>
-                            Enviar mi compromiso
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+                            Escribir Compromiso
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
                         </button>
                     </div>
                 )}

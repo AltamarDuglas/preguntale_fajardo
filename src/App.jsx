@@ -5,6 +5,7 @@ import { useQuestions } from './hooks/useQuestions';
 import Header from './components/layout/Header';
 import Navigation from './components/layout/Navigation';
 import HomeScreen from './components/screens/HomeScreen';
+import QuestionScreen from './components/screens/QuestionScreen';
 import ProposalsScreen from './components/screens/ProposalsScreen';
 import HistoryScreen from './components/screens/HistoryScreen';
 import AdminLogin from './components/admin/AdminLogin';
@@ -61,6 +62,12 @@ export default function App() {
                 remaining={remaining} 
                 submitQuestion={submitQuestion} 
                 totalCount={totalCount}
+            />
+          )}
+          {currentScreen === 'screen-question' && (
+            <QuestionScreen 
+                navigateTo={navigateTo} 
+                submitQuestion={submitQuestion} 
             />
           )}
           {currentScreen === 'screen-proposals' && (
