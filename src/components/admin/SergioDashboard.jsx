@@ -1,35 +1,72 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabaseClient';
 
 /**
- * SergioDashboard Serverless - Ruleta con lógica de cliente Supabase
+ * SergioDashboard Premium - Ruleta estilo Tragamonedas (Slot Machine)
+ * Visualización de nombres deslizantes y revelación animada.
  */
 export default function SergioDashboard({ user, onLogout }) {
+    const [allQuestions, setAllQuestions] = useState([]);
     const [currentQuestion, setCurrentQuestion] = useState(null);
     const [answer, setAnswer] = useState('');
     const [isSpinning, setIsSpinning] = useState(false);
     const [message, setMessage] = useState('');
+    
+    // Estados para la animación de la Slot Machine
+    const [visualNames, setVisualNames] = useState([]);
+    const [offset, setOffset] = useState(0);
+    const [showCard, setShowCard] = useState(false);
 
     const spinRoulette = async () => {
+        if (isSpinning) return;
+        
         setIsSpinning(true);
+        setShowCard(false);
         setCurrentQuestion(null);
         setAnswer('');
         setMessage('');
+        setOffset(0);
 
-        setTimeout(async () => {
-            const { data, error } = await supabase
-                .from('questions')
-                .select('*')
-                .eq('status', 'PENDING');
+        // 1. Obtener las preguntas pendientes
+        const { data, error } = await supabase
+            .from('questions')
+            .select('*')
+            .eq('status', 'PENDING');
 
-            if (error || !data || data.length === 0) {
-                setMessage('No hay preguntas pendientes.');
-            } else {
-                const randomIndex = Math.floor(Math.random() * data.length);
-                setCurrentQuestion(data[randomIndex]);
-            }
+        if (error || !data || data.length === 0) {
+            setMessage('No hay preguntas pendientes en este momento.');
             setIsSpinning(false);
-        }, 1500);
+            return;
+        }
+
+        // 2. Preparar la lista visual (Slot Strip)
+        // Duplicamos los nombres para que el scroll se vea largo y profesional
+        const winnerIndex = Math.floor(Math.random() * data.length);
+        const winner = data[winnerIndex];
+        
+        // Creamos una lista larga (ej: 40 nombres antes del ganador final)
+        let tempNames = [];
+        for (let i = 0; i < 40; i++) {
+            const randomName = data[Math.floor(Math.random() * data.length)].name;
+            tempNames.push(randomName);
+        }
+        tempNames.push(winner.name); // El nombre número 41 es el ganador
+        
+        setVisualNames(tempNames);
+
+        // 3. Iniciar la animación de scroll
+        // Esperamos un pequeño frame para que React renderice la tira antes de moverla
+        setTimeout(() => {
+            const finalOffset = (tempNames.length - 1) * 90; // 90px es la altura de cada nombre en CSS
+            setOffset(finalOffset);
+        }, 50);
+
+        // 4. Finalizar después de que termine la transición de CSS (3 segundos en el CSS)
+        setTimeout(() => {
+            setIsSpinning(false);
+            setCurrentQuestion(winner);
+            setShowCard(true);
+        }, 3200);
     };
 
     const handleAnswer = async () => {
@@ -43,36 +80,80 @@ export default function SergioDashboard({ user, onLogout }) {
 
         if (!error && data && data.length > 0) {
             alert('¡Respuesta oficial enviada con éxito!');
-            setMessage('Respuesta enviada con éxito.');
+            setShowCard(false);
             setCurrentQuestion(null);
         } else {
-            console.error('Error Supabase:', error || 'RLS bloqueó la actualización (0 filas modificadas).');
-            alert('Error: La respuesta no se guardó. Verifica tus permisos en la tabla perfiles.');
-            setMessage('Error de permisos al enviar.');
+            console.error('Error:', error);
+            alert('Error al guardar la respuesta.');
         }
     };
 
     return (
-        <div className="sergio-dash" style={{ padding: '20px', textAlign: 'center', height: '100dvh', overflowY: 'auto', background: 'var(--bg-main)' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-                <h3 style={{ margin: 0 }}>Bienvenido, {user.name}</h3>
-                <button onClick={async () => { await supabase.auth.signOut(); onLogout(); }} style={{ background: 'none', border: 'none', color: 'var(--text-accent)' }}>Salir</button>
+        <div className="sergio-dash" style={{ padding: '20px', textAlign: 'center', height: '100dvh', overflowY: 'auto', background: 'var(--bg-main)', position: 'relative' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+                <h4 style={{ margin: 0, fontSize: '0.9rem' }}>Bienvenido, {user.name}</h4>
+                <button onClick={async () => { await supabase.auth.signOut(); onLogout(); }} className="btn-secondary" style={{ padding: '6px 12px', fontSize: '0.7rem', marginBottom: 0 }}>Salir</button>
             </div>
 
-            <div className={`roulette-wheel ${isSpinning ? 'spinning' : ''}`} style={{ width: '180px', height: '180px', borderRadius: '50%', border: '8px solid var(--text-primary)', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'white', fontSize: '3rem', color: 'var(--text-primary)' }}>
-                <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M19 5H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Z"></path><path d="M12 11h.01"></path><path d="M16 11h.01"></path><path d="M8 11h.01"></path><path d="M12 2v3"></path></svg>
+            <div style={{ marginTop: '20px', marginBottom: '30px' }}>
+                <h2 style={{ fontSize: '1.6rem', fontWeight: 900, textTransform: 'uppercase', color: 'var(--text-primary)' }}>🎰 Selección <br/> de Compromiso</h2>
             </div>
-            <button className="btn btn-primary" onClick={spinRoulette} disabled={isSpinning} style={{ marginTop: '20px' }}>{isSpinning ? 'GIRANDO...' : 'GIRAR RULETA'}</button>
 
-            {currentQuestion && (
-                <div className="card" style={{ background: 'white', padding: '20px', borderRadius: '24px', textAlign: 'left', marginTop: '30px' }}>
-                    <p style={{ fontWeight: 700 }}>Consulta de: {currentQuestion.name}</p>
-                    <p style={{ marginBottom: '20px' }}>"{currentQuestion.text}"</p>
-                    <textarea value={answer} onChange={(e) => setAnswer(e.target.value)} style={{ minHeight: '100px' }}></textarea>
-                    <button className="btn btn-primary" onClick={handleAnswer} style={{ width: '100%', marginTop: '10px' }}>Responder</button>
+            {/* SLOT MACHINE VISOR */}
+            <div className="slot-machine-container">
+                <div className="slot-indicator"></div>
+                <div 
+                    className="slot-strip" 
+                    style={{ transform: `translateY(-${offset}px)` }}
+                >
+                    {visualNames.length === 0 ? (
+                        <div className="slot-name">LISTO PARA GIRAR</div>
+                    ) : (
+                        visualNames.map((name, idx) => (
+                            <div key={idx} className="slot-name">{name}</div>
+                        ))
+                    )}
+                </div>
+            </div>
+
+            <button 
+                className="btn btn-primary" 
+                onClick={spinRoulette} 
+                disabled={isSpinning}
+                style={{ width: 'min(90%, 280px)', height: '60px', borderRadius: '30px' }}
+            >
+                {isSpinning ? 'ANALIZANDO...' : '¡GIRAR RULETA!'}
+            </button>
+
+            {message && <p style={{ marginTop: '20px', fontWeight: 700, color: 'var(--text-primary)' }}>{message}</p>}
+
+            {/* CARD GANADORA CON ANIMACIÓN POP-IN */}
+            {currentQuestion && showCard && (
+                <div className="winner-card" style={{ marginTop: '30px' }}>
+                    <div className="card" style={{ background: 'white', padding: '24px', borderRadius: '28px', border: '4px solid var(--text-primary)', textAlign: 'left', boxShadow: '0 20px 50px rgba(0,0,0,0.15)' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
+                            <span className="pill ready" style={{ fontSize: '0.7rem' }}>SELECCIONADO</span>
+                            <span style={{ fontWeight: 800, fontSize: '0.85rem' }}>{currentQuestion.phone}</span>
+                        </div>
+                        
+                        <h3 style={{ fontSize: '1.1rem', marginBottom: '10px' }}>{currentQuestion.name} pregunta:</h3>
+                        <p style={{ fontSize: '1.2rem', marginBottom: '25px', lineHeight: 1.4, fontWeight: 500 }}>"{currentQuestion.text}"</p>
+                        
+                        <textarea 
+                            placeholder="Escribe tu compromiso aquí, Sergio..."
+                            value={answer} 
+                            onChange={(e) => setAnswer(e.target.value)} 
+                            style={{ minHeight: '120px', border: '2px solid var(--text-primary)', background: '#f9f9f9', marginBottom: '15px' }}
+                        ></textarea>
+                        
+                        <button className="btn btn-primary" onClick={handleAnswer} style={{ width: '100%', fontSize: '1rem' }}>ENVIAR RESPUESTA OFICIAL</button>
+                    </div>
                 </div>
             )}
-            {message && <p style={{ marginTop: '20px', fontWeight: 700 }}>{message}</p>}
+            
+            <div style={{ marginTop: '40px', opacity: 0.5, fontSize: '0.7rem' }}>
+                Sistema de Escucha Directa - Sergio Fajardo 2026
+            </div>
         </div>
     );
 }
