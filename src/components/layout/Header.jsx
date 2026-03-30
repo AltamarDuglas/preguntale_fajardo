@@ -5,7 +5,7 @@ export default function Header() {
                 <div className="brand">
                     <div className="avatar">S</div>
                     <div>
-                        <small>Sergio Fajardo</small>
+                        <h2>Sergio Fajardo</h2>
                         <strong>¡TE DAMOS LA BIENVENIDA!</strong>
                     </div>
                 </div>
