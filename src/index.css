@@ -62,7 +62,7 @@ html, body {
 
 
 .app-header {
-    padding: 30px 32px 10px;
+    padding: 24px 32px 0px; /* Reducido para eliminar espacio muerto */
     flex-shrink: 0;
 }
 
