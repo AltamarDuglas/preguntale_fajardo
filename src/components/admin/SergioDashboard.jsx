@@ -59,7 +59,9 @@ export default function SergioDashboard({ user, onLogout }) {
                 <button onClick={async () => { await supabase.auth.signOut(); onLogout(); }} style={{ background: 'none', border: 'none', color: 'var(--text-accent)' }}>Salir</button>
             </div>
 
-            <div className={`roulette-wheel ${isSpinning ? 'spinning' : ''}`} style={{ width: '180px', height: '180px', borderRadius: '50%', border: '8px solid var(--text-primary)', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'white', fontSize: '3rem' }}>🗳️</div>
+            <div className={`roulette-wheel ${isSpinning ? 'spinning' : ''}`} style={{ width: '180px', height: '180px', borderRadius: '50%', border: '8px solid var(--text-primary)', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'white', fontSize: '3rem', color: 'var(--text-primary)' }}>
+                <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M19 5H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Z"></path><path d="M12 11h.01"></path><path d="M16 11h.01"></path><path d="M8 11h.01"></path><path d="M12 2v3"></path></svg>
+            </div>
             <button className="btn btn-primary" onClick={spinRoulette} disabled={isSpinning} style={{ marginTop: '20px' }}>{isSpinning ? 'GIRANDO...' : 'GIRAR RULETA'}</button>
 
             {currentQuestion && (

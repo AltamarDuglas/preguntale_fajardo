@@ -7,9 +7,17 @@ export default function HistoryScreen({ questions = [], refresh }) {
         return (
             <div className="screen active" id="screen-history">
                 <div className="card" style={{ textAlign: 'center', padding: '40px 20px' }}>
-                    <div style={{ fontSize: '3rem', marginBottom: '20px' }}>✉️</div>
+                    <div style={{ marginBottom: '20px', color: 'var(--text-primary)', opacity: 0.5 }}>
+                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                            <polyline points="22,6 12,13 2,6"></polyline>
+                        </svg>
+                    </div>
                     <h3 style={{ margin: 0, color: 'var(--text-primary)' }}>Aún no has preguntado</h3>
-                    <button className="btn btn-secondary" onClick={refresh} style={{ marginTop: '15px', fontSize: '0.8rem' }}>Actualizar historial</button>
+                    <button className="btn btn-secondary" onClick={refresh} style={{ marginTop: '15px', fontSize: '0.8rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', margin: '15px auto 0' }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
+                        Actualizar historial
+                    </button>
                 </div>
             </div>
         );
@@ -24,9 +32,11 @@ export default function HistoryScreen({ questions = [], refresh }) {
                 </div>
                 <button 
                     onClick={refresh} 
-                    style={{ background: 'var(--bg-main)', border: '2px solid var(--text-primary)', borderRadius: '50%', width: '40px', height: '40px', fontSize: '1.2rem', cursor: 'pointer' }}
+                    style={{ background: 'var(--bg-main)', border: '2px solid var(--text-primary)', borderRadius: '50%', width: '40px', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', padding: 0 }}
                     title="Actualizar respuestas"
-                >🔄</button>
+                >
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
+                </button>
             </div>
 
             <div className="question-list" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -67,8 +77,9 @@ export default function HistoryScreen({ questions = [], refresh }) {
                         )}
 
                         {q.status === 'PENDING' && (
-                            <div style={{ marginTop: '12px', fontSize: '0.75rem', color: '#666', fontStyle: 'italic', display: 'flex', alignItems: 'center', gap: '5px' }}>
-                                ⏳ Sergio o su equipo están analizando tu consulta.
+                            <div style={{ marginTop: '12px', fontSize: '0.75rem', color: '#666', fontStyle: 'italic', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                Sergio o su equipo están analizando tu consulta.
                             </div>
                         )}
                     </div>
