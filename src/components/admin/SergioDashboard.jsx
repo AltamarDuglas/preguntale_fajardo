@@ -7,11 +7,14 @@ import { supabase } from '../../lib/supabaseClient';
 export default function SergioDashboard({ user, onLogout }) {
     const [allQuestions, setAllQuestions] = useState([]);
     const [currentQuestion, setCurrentQuestion] = useState(null);
+    const [answer, setAnswer] = useState('');
+    const [isSpinning, setIsSpinning] = useState(false);
+    const [message, setMessage] = useState('');
     const [visualNames, setVisualNames] = useState([]);
     const [offset, setOffset] = useState(0);
     const [showCard, setShowCard] = useState(false);
     const [transitionEnabled, setTransitionEnabled] = useState(false);
-    const winnerCardRef = useRef(null); // <--- CAMBIO: Ahora apunta a la tarjeta
+    const winnerCardRef = useRef(null);
 
     const spinRoulette = async () => {
         if (isSpinning) return;
