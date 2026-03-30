@@ -46,7 +46,7 @@ export default function HomeScreen({ navigateTo, submitQuestion, totalCount }) {
     };
 
     return (
-        <div className="screen active" id="screen-home" style={{ display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'center', gap: '5px', paddingTop: '0' }}>
+        <div className="screen active" id="screen-home" style={{ display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'flex-start', gap: '8px', paddingTop: '8px' }}>
 
             {/* TITULAR ESTRATÉGICO (Basado en Estrategia 2026) */}
             <div className="welcome-text" style={{ textAlign: 'center', marginBottom: '5px', padding: '0 10px' }}>
