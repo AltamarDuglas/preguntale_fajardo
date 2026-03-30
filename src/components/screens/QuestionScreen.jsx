@@ -10,20 +10,38 @@ export default function QuestionScreen({ navigateTo, submitQuestion }) {
     const [questionText, setQuestionText] = useState('');
     const [error, setError] = useState('');
 
+    // Estado para controlar si el usuario ya tiene identidad guardada
+    const [isAlreadyIdentified, setIsAlreadyIdentified] = useState(false);
+
     useEffect(() => {
         const savedIdentity = localStorage.getItem('fajardo_identity');
         if (savedIdentity) {
-            const { name: savedName, phone: savedPhone } = JSON.parse(savedIdentity);
-            setName(savedName);
-            setPhone(savedPhone);
-        } else {
-            // Si no hay identidad, lo regresamos al home para que se registre
-            navigateTo('screen-home');
+            try {
+                const { name: savedName, phone: savedPhone } = JSON.parse(savedIdentity);
+                setName(savedName);
+                setPhone(savedPhone);
+                setIsAlreadyIdentified(true);
+            } catch (e) {
+                console.error("Error al leer identidad:", e);
+                setIsAlreadyIdentified(false);
+            }
         }
-    }, [navigateTo]);
+        // Eliminamos el redireccionamiento para permitir flujo directo desde el Home
+    }, []);
 
     const handleSend = () => {
+        // Validación rigurosa de identidad y mensaje (SOLID: SRP)
+        if (!name.trim() || !phone.trim() || phone.trim().length < 7) {
+            setError('Por favor completa tu nombre y un teléfono válido antes de enviar.');
+            return;
+        }
+
         if (questionText.trim()) {
+            // Guardar identidad si no existía para persistencia UX
+            if (!isAlreadyIdentified) {
+                localStorage.setItem('fajardo_identity', JSON.stringify({ name, phone }));
+            }
+
             submitQuestion({ name, phone, text: questionText }, () => {
                 setQuestionText('');
                 navigateTo('screen-history');
@@ -61,10 +79,32 @@ export default function QuestionScreen({ navigateTo, submitQuestion }) {
                 flex: 1,
                 marginBottom: '10px'
             }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px', background: 'var(--bg-main)', padding: '10px 14px', borderRadius: '12px', border: '1.5px solid var(--text-primary)' }}>
-                    <div style={{ width: '10px', height: '10px', background: '#4caf50', borderRadius: '50%' }}></div>
-                    <span style={{ fontSize: '0.85rem', fontWeight: 800, color: 'var(--text-primary)' }}>Escribiendo como {name.split(' ')[0]}</span>
-                </div>
+                {isAlreadyIdentified ? (
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px', background: 'var(--bg-main)', padding: '10px 14px', borderRadius: '12px', border: '1.5px solid var(--text-primary)' }}>
+                        <div style={{ width: '10px', height: '10px', background: '#4caf50', borderRadius: '50%' }}></div>
+                        <span style={{ fontSize: '0.85rem', fontWeight: 800, color: 'var(--text-primary)' }}>Escribiendo como {name.split(' ')[0]}</span>
+                    </div>
+                ) : (
+                    <div style={{ marginBottom: '15px' }}>
+                        <p style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--text-accent)', marginBottom: '10px', textTransform: 'uppercase' }}>Completa tus datos para enviar:</p>
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                            <input 
+                                type="text" 
+                                placeholder="Nombre" 
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                                style={{ padding: '10px', borderRadius: '10px', border: '2px solid var(--text-primary)', fontSize: '0.85rem' }}
+                            />
+                            <input 
+                                type="tel" 
+                                placeholder="WhatsApp" 
+                                value={phone}
+                                onChange={(e) => setPhone(e.target.value)}
+                                style={{ padding: '10px', borderRadius: '10px', border: '2px solid var(--text-primary)', fontSize: '0.85rem' }}
+                            />
+                        </div>
+                    </div>
+                )}
                 
                 <div style={{ position: 'relative', flex: 1, display: 'flex', flexDirection: 'column' }}>
                     <textarea 

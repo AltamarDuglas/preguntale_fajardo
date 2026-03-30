@@ -46,20 +46,20 @@ export default function HomeScreen({ navigateTo, submitQuestion, totalCount }) {
     };
 
     return (
-        <div className="screen active" id="screen-home" style={{ display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'flex-start', paddingTop: '10px' }}>
+        <div className="screen active" id="screen-home" style={{ display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'center', gap: '5px', paddingTop: '0' }}>
 
             {/* TITULAR ESTRATÉGICO (Basado en Estrategia 2026) */}
-            <div className="welcome-text" style={{ textAlign: 'center', marginBottom: '12px', padding: '0 10px' }}>
-                <h3 style={{ fontSize: '1.4rem', color: 'var(--text-primary)', fontWeight: 900, lineHeight: 1.1, textTransform: 'uppercase', marginBottom: '8px' }}>
+            <div className="welcome-text" style={{ textAlign: 'center', marginBottom: '5px', padding: '0 10px' }}>
+                <h3 style={{ fontSize: '1.4rem', color: 'var(--text-primary)', fontWeight: 900, lineHeight: 1.1, textTransform: 'uppercase', marginBottom: '5px' }}>
                     CAMBIO SERIO <br /> Y SEGURO
                 </h3>
-                <p style={{ fontWeight: 600, color: 'var(--text-accent)', fontSize: '0.9rem', margin: '0 auto', maxWidth: '300px', lineHeight: 1.3 }}>
+                <p style={{ fontWeight: 600, color: 'var(--text-accent)', fontSize: '1rem', margin: '0 auto', maxWidth: '300px', lineHeight: 1.3 }}>
                     "Construyamos orden sin odio y el progreso que solo la educación puede darnos."
                 </p>
 
                 {/* CONTADOR EN VIVO PREMIUM */}
                 <div style={{
-                    marginTop: '15px',
+                    marginTop: '8px',
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
@@ -85,21 +85,22 @@ export default function HomeScreen({ navigateTo, submitQuestion, totalCount }) {
                     </div>
                 </div>
 
-                <div style={{ marginTop: '10px', fontSize: '0.7rem', opacity: 0.7, fontWeight: 700 }}>
+                <div style={{ marginTop: '5px', fontSize: '0.7rem', opacity: 0.7, fontWeight: 700 }}>
                     PLATAFORMA DE ESCUCHA DIRECTA
                 </div>
             </div>
 
             {/* FORMULARIO DE IDENTIDAD / PREGUNTA */}
-            <section className="interaction-hub" style={{ flexShrink: 0, padding: '5px' }}>
+            <section className="interaction-hub" style={{ flexShrink: 0, padding: '0px' }}>
                 {!isIdentified ? (
                     <div className="card" style={{
                         background: 'white',
                         border: '3px solid var(--text-primary)',
-                        padding: '24px 20px',
+                        padding: '16px 20px',
                         borderRadius: '24px',
                         boxShadow: '8px 8px 0 var(--text-primary)',
-                        animation: 'cardPopIn 0.5s ease-out'
+                        animation: 'cardPopIn 0.5s ease-out',
+                        marginBottom: '10px'
                     }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '15px' }}>
                             <div style={{ background: 'var(--bg-main)', padding: '8px', borderRadius: '12px', border: '1.5px solid var(--text-primary)' }}>
@@ -158,7 +159,12 @@ export default function HomeScreen({ navigateTo, submitQuestion, totalCount }) {
                             </div>
                         )}
 
-                        <button className="btn btn-primary" onClick={handleIdentify} style={{
+                        <button className="btn btn-primary" onClick={() => {
+                            if (name.trim() && phone.trim().length >= 7) {
+                                localStorage.setItem('fajardo_identity', JSON.stringify({ name, phone }));
+                            }
+                            navigateTo('screen-question');
+                        }} style={{
                             padding: '16px',
                             fontSize: '1rem',
                             borderRadius: '16px',
@@ -177,13 +183,14 @@ export default function HomeScreen({ navigateTo, submitQuestion, totalCount }) {
                     <div className="card" style={{
                         background: 'white',
                         border: '3px solid var(--text-primary)',
-                        padding: '24px 20px',
+                        padding: '16px 20px',
                         borderRadius: '24px',
                         boxShadow: '8px 8px 0 var(--text-primary)',
                         animation: 'fadeIn 0.4s ease-out',
-                        textAlign: 'center'
+                        textAlign: 'center',
+                        marginBottom: '10px'
                     }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '25px', background: 'var(--bg-main)', padding: '10px 14px', borderRadius: '12px', border: '1.5px solid var(--text-primary)' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px', background: 'var(--bg-main)', padding: '8px 12px', borderRadius: '12px', border: '1.5px solid var(--text-primary)' }}>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                                 <div style={{ width: '8px', height: '8px', background: '#4caf50', borderRadius: '50%' }}></div>
                                 <span style={{ fontSize: '0.9rem', fontWeight: 900, color: 'var(--text-primary)' }}>Hola, {name.split(' ')[0]}</span>
@@ -194,18 +201,18 @@ export default function HomeScreen({ navigateTo, submitQuestion, totalCount }) {
                             >CAMBIAR</button>
                         </div>
 
-                        <div style={{ width: '60px', height: '60px', background: 'var(--input-bg)', borderRadius: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 15px', border: '2px solid var(--text-primary)' }}>
-                            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="var(--text-accent)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z" /><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z" /><path d="M2 2l7.586 7.586" /><circle cx="11" cy="11" r="2" /></svg>
+                        <div style={{ width: '50px', height: '50px', background: 'var(--input-bg)', borderRadius: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 10px', border: '2px solid var(--text-primary)' }}>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--text-accent)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z" /><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z" /><path d="M2 2l7.586 7.586" /><circle cx="11" cy="11" r="2" /></svg>
                         </div>
 
-                        <h4 style={{ fontSize: '1.2rem', fontWeight: 900, marginBottom: '8px', color: 'var(--text-primary)' }}>Tu Identidad Confirmada</h4>
-                        <p style={{ fontSize: '0.85rem', color: 'var(--text-primary)', opacity: 0.8, fontWeight: 600, marginBottom: '25px', lineHeight: 1.4 }}>
+                        <h4 style={{ fontSize: '1.1rem', fontWeight: 900, marginBottom: '5px', color: 'var(--text-primary)' }}>Tu Identidad Confirmada</h4>
+                        <p style={{ fontSize: '0.8rem', color: 'var(--text-primary)', opacity: 0.8, fontWeight: 600, marginBottom: '15px', lineHeight: 1.3 }}>
                             Ya estás listo para enviar tu compromiso o pregunta al equipo de Sergio Fajardo.
                         </p>
 
                         <button className="btn btn-primary btn-floating-cta" onClick={() => navigateTo('screen-question')} style={{
-                            padding: '18px',
-                            fontSize: '1.1rem',
+                            padding: '14px',
+                            fontSize: '1.05rem',
                             borderRadius: '16px',
                             width: '100%',
                             fontWeight: 900,
@@ -221,16 +228,6 @@ export default function HomeScreen({ navigateTo, submitQuestion, totalCount }) {
                 )}
             </section>
 
-            {/* ACCESO A PROPUESTAS */}
-            <div style={{ marginTop: '10px', textAlign: 'center' }}>
-                <button
-                    className="btn btn-secondary btn-floating-cta"
-                    onClick={() => navigateTo('screen-proposals')}
-                    style={{ background: 'white', border: '2px dashed var(--text-primary)', textTransform: 'none', fontSize: '0.85rem', width: 'auto', padding: '8px 16px', fontWeight: 800 }}
-                >
-                    Explora el Plan de Gobierno ➔
-                </button>
-            </div>
         </div>
     );
 }

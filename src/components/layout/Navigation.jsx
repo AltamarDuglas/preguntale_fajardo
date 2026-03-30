@@ -10,7 +10,7 @@ export default function Navigation({ currentScreen, navigateTo }) {
                 onClick={() => navigateTo('screen-home')}
             >Inicio</button>
             <button 
-                className={`nav-btn ${currentScreen === 'screen-proposals' ? 'active' : ''}`} 
+                className={`nav-btn ${currentScreen === 'screen-proposals' ? 'active' : 'attention'}`} 
                 onClick={() => navigateTo('screen-proposals')}
             >Propuestas</button>
             <button 

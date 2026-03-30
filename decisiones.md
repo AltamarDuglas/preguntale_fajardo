@@ -73,10 +73,10 @@ Para garantizar una experiencia visual ágil y "limpia" (sin barras de scroll in
 - **Compactación Dinámica:** Se redujeron los rellenos (`padding`) del cabezote y márgenes internos del `HomeScreen` para asegurar que todo el eje interactivo quepa "Above the fold" en dispositivos móviles estándar.
 - **Scroll de Contenido:** Se preservó la capacidad de desplazamiento vertical en las pantallas de **Propuestas** e **Historial**, donde la extensión del texto sí justifica la barra de scroll.
 
-## 14. Micro-interacciones de Atención (Floating CTA)
-Para incentivar el descubrimiento de contenido profundo sin sacrificar la interactividad del Inicio:
-- **Animación `pulseFloating`:** Se aplicó una animación infinita de flotación sutil al botón de propuestas. 
-- **Objetivo:** Captar el foco visual del usuario tras realizar sus preguntas, induciendo al descubrimiento voluntario del Plan de Gobierno mediante señales dinámicas de atracción (Affordance visual).
+## 14. Micro-interacciones de Atención (Floating CTA a Nivel Local)
+Para incentivar el descubrimiento de contenido profundo sin sacrificar la interactividad del Inicio ni generar ruido visual innecesario:
+- **Reducción de Botones Secundarios:** Se eliminó el botón flotante masivo "Explora el Plan de Gobierno" al final del `HomeScreen`. Liberando espacio valioso.
+- **Micro-Animación Crítica:** Se aplicó una nueva animación CSS `navAttentionGlow` directamente sobre el botón `Propuestas` de la barra de navegación principal inferior (`Navigation.jsx`). Esta animación resalta sutilmente la opción con un rebote de color, induciendo al usuario a hacer clic de forma orgánica e intuitiva sin romper la limpieza del Inicio.
 
 ## 15. Solución al Mobile Viewport Bug (100dvh)
 Para resolver el scroll inesperado en navegadores móviles (donde la barra de direcciones consume espacio no contabilizado por `100vh`):
@@ -88,4 +88,10 @@ Para resolver el scroll inesperado en navegadores móviles (donde la barra de di
 Para resolver la fatiga de scroll y la desorganización visual:
 - **Segmented Control:** Se implementó un selector de pestañas interno en el `HomeScreen` para alternar entre *Propuesta* y *Preguntar*.
 - **Ventaja UX:** Esta técnica permite mantener todo el contenido crítico "Above the fold" (visible sin scroll), garantizando que el usuario pueda actuar (preguntar) o informarse (mensaje) instantáneamente según su interés, sin perder el contexto del cabezote institucional.
-- **Contención Visual:** El uso de un contenedor con `flex: 1` y `overflow: auto` asegura que la aplicación se sienta como una herramienta nativa y no como una página web larga y pesada.
+
+## 16. Simplificación del Flujo de Interacción (Cero Pasos)
+Para reducir la fricción y aumentar la participación ciudadana según las nuevas directrices:
+- **Navegación Directa:** Se eliminó el bloqueo de identidad en el `HomeScreen`. El botón "Preguntar" ahora redirige inmediatamente a `QuestionScreen`.
+- **Captura In-Place:** Se implementó una lógica de detección de identidad en `QuestionScreen`. Si el usuario no tiene datos guardados, se muestran campos de Nombre/Teléfono integrados en el formulario de la pregunta.
+- **Persistencia Silenciosa:** Los datos de identidad se guardan en el momento del envío exitoso, permitiendo que las siguientes interacciones sean instantáneas sin repetir el proceso de registro.
+- **Eliminación de Modales:** Se evitó el uso de pantallas de confirmación intermedias ("Identidad Confirmada") para mantener al usuario enfocado en su mensaje al candidato.
