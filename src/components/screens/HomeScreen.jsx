@@ -48,14 +48,17 @@ export default function HomeScreen({ navigateTo, submitQuestion }) {
     return (
         <div className="screen active no-scroll-view" id="screen-home" style={{ display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'flex-start', paddingTop: '10px' }}>
             
-            {/* TITULAR ESTRATÉGICO */}
-            <div className="welcome-text" style={{ textAlign: 'center', marginBottom: '8px' }}>
-                <h3 style={{ fontSize: '1.25rem', color: 'var(--text-primary)', margin: 0, lineHeight: 1.1 }}>
-                    Plataforma de Escucha <br/> Sergio Fajardo
+            {/* TITULAR ESTRATÉGICO (Basado en Estrategia 2026) */}
+            <div className="welcome-text" style={{ textAlign: 'center', marginBottom: '12px', padding: '0 10px' }}>
+                <h3 style={{ fontSize: '1.4rem', color: 'var(--text-primary)', fontWeight: 900, lineHeight: 1.1, textTransform: 'uppercase', marginBottom: '8px' }}>
+                    CAMBIO SERIO <br/> Y SEGURO
                 </h3>
-                <p style={{ fontWeight: 600, color: 'var(--text-accent)', fontSize: '0.8rem', margin: '4px 0 0' }}>
-                    Sin intermediarios, de ciudadano a líder.
+                <p style={{ fontWeight: 600, color: 'var(--text-accent)', fontSize: '0.9rem', margin: '0 auto', maxWidth: '300px', lineHeight: 1.3 }}>
+                    "Construyamos orden sin odio y el progreso que solo la educación puede darnos."
                 </p>
+                <div style={{ marginTop: '5px', fontSize: '0.7rem', opacity: 0.7, fontWeight: 700 }}>
+                    PLATAFORMA DE ESCUCHA DIRECTA
+                </div>
             </div>
 
             {/* FORMULARIO DE IDENTIDAD / PREGUNTA */}
