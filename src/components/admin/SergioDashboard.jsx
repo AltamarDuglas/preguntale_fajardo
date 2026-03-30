@@ -7,16 +7,11 @@ import { supabase } from '../../lib/supabaseClient';
 export default function SergioDashboard({ user, onLogout }) {
     const [allQuestions, setAllQuestions] = useState([]);
     const [currentQuestion, setCurrentQuestion] = useState(null);
-    const [answer, setAnswer] = useState('');
-    const [isSpinning, setIsSpinning] = useState(false);
-    const [message, setMessage] = useState('');
-    const textareaRef = useRef(null); // <--- NUEVO
-    
-    // Estados para la animación de la Slot Machine
     const [visualNames, setVisualNames] = useState([]);
     const [offset, setOffset] = useState(0);
     const [showCard, setShowCard] = useState(false);
-    const [transitionEnabled, setTransitionEnabled] = useState(false); // <--- NUEVO
+    const [transitionEnabled, setTransitionEnabled] = useState(false);
+    const winnerCardRef = useRef(null); // <--- CAMBIO: Ahora apunta a la tarjeta
 
     const spinRoulette = async () => {
         if (isSpinning) return;
@@ -48,6 +43,15 @@ export default function SergioDashboard({ user, onLogout }) {
         const winner = data[winnerIndex];
         
         let tempNames = [];
+        
+        // El TRUCO: El primer elemento de la nueva tira debe ser exactamente el nombre que se está mostrando ahora
+        // Así, al volver al offset 0 sin animación, el usuario no nota ningún "brinco"
+        if (visualNames.length > 0) {
+            tempNames.push(visualNames[visualNames.length - 1]);
+        } else {
+            tempNames.push("LISTO PARA GIRAR");
+        }
+
         // Llenamos la tira con nombres aleatorios
         for (let i = 0; i < 30; i++) {
             const randomName = data[Math.floor(Math.random() * data.length)].name;
@@ -57,7 +61,7 @@ export default function SergioDashboard({ user, onLogout }) {
         
         setVisualNames(tempNames);
 
-        // 3. Iniciar la animación de scroll con un pequeño delay para que el navegador capte el reset
+        // 3. Iniciar la animación de scroll
         setTimeout(() => {
             setTransitionEnabled(true); // Re-activamos la transición suave
             setTimeout(() => {
@@ -71,9 +75,12 @@ export default function SergioDashboard({ user, onLogout }) {
             setIsSpinning(false);
             setCurrentQuestion(winner);
             setShowCard(true);
-            // Autofoco en el textarea después de que la animación de pop-in empiece
+            
+            // Scroll suave hacia la tarjeta ganadora sin abrir el teclado
             setTimeout(() => {
-                if (textareaRef.current) textareaRef.current.focus();
+                if (winnerCardRef.current) {
+                    winnerCardRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
             }, 600);
         }, 3500); 
     };
@@ -141,7 +148,7 @@ export default function SergioDashboard({ user, onLogout }) {
 
             {/* CARD GANADORA CON ANIMACIÓN POP-IN */}
             {currentQuestion && showCard && (
-                <div className="winner-card" style={{ marginTop: '30px' }}>
+                <div ref={winnerCardRef} className="winner-card" style={{ marginTop: '30px', paddingBottom: '30px' }}>
                     <div className="card" style={{ background: 'white', padding: '24px', borderRadius: '28px', border: '4px solid var(--text-primary)', textAlign: 'left', boxShadow: '0 20px 50px rgba(0,0,0,0.15)' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
                             <span className="pill ready" style={{ fontSize: '0.7rem' }}>SELECCIONADO</span>
@@ -152,7 +159,6 @@ export default function SergioDashboard({ user, onLogout }) {
                         <p style={{ fontSize: '1.2rem', marginBottom: '25px', lineHeight: 1.4, fontWeight: 500 }}>"{currentQuestion.text}"</p>
                         
                         <textarea 
-                            ref={textareaRef}
                             placeholder="Escribe tu compromiso aquí, Sergio..."
                             value={answer} 
                             onChange={(e) => setAnswer(e.target.value)} 
