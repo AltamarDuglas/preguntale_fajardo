@@ -10,9 +10,10 @@ import HistoryScreen from './components/screens/HistoryScreen';
 import AdminLogin from './components/admin/AdminLogin';
 import SergioDashboard from './components/admin/SergioDashboard';
 import AdminDashboard from './components/admin/AdminDashboard';
+import ReplierDashboard from './components/admin/ReplierDashboard'; // <--- IMPORT NUEVO
 
 /**
- * App Root - Versión UX 3.0 (Interactúa + Informa + Sigue)
+ * App Root - Versión UX 4.0 (Interactúa + Informa + Sigue)
  */
 export default function App() {
   const { currentScreen, navigateTo } = useNavigation();
@@ -40,9 +41,11 @@ export default function App() {
 
     if (adminUser.role === 'ADMIN') {
         return <AdminDashboard user={adminUser} onLogout={handleAdminLogout} />;
+    } else if (adminUser.role === 'SERGIO') {
+        return <SergioDashboard user={adminUser} onLogout={handleAdminLogout} />;
+    } else {
+        return <ReplierDashboard user={adminUser} onLogout={handleAdminLogout} />;
     }
-
-    return <SergioDashboard user={adminUser} onLogout={handleAdminLogout} />;
   }
 
   return (

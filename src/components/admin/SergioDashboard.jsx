@@ -35,19 +35,20 @@ export default function SergioDashboard({ user, onLogout }) {
     const handleAnswer = async () => {
         if (!answer.trim()) return;
 
-        const { error } = await supabase
+        const { data, error } = await supabase
             .from('questions')
             .update({ answer, status: 'ANSWERED' })
-            .eq('id', currentQuestion.id);
+            .eq('id', currentQuestion.id)
+            .select();
 
-        if (!error) {
+        if (!error && data && data.length > 0) {
             alert('¡Respuesta oficial enviada con éxito!');
             setMessage('Respuesta enviada con éxito.');
             setCurrentQuestion(null);
         } else {
-            console.error('Error Supabase:', error);
-            alert('Error al enviar la respuesta: ' + error.message);
-            setMessage('Error al enviar la respuesta.');
+            console.error('Error Supabase:', error || 'RLS bloqueó la actualización (0 filas modificadas).');
+            alert('Error: La respuesta no se guardó. Verifica tus permisos en la tabla perfiles.');
+            setMessage('Error de permisos al enviar.');
         }
     };
 

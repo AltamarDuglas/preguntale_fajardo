@@ -444,4 +444,17 @@ input[type="text"]:focus, textarea:focus {
     /* Forzar que el card no sea muy alto en móviles pequeños */
     .card { margin-bottom: 12px; }
     .welcome-text { margin-bottom: 8px; }
+    
+    /* Evitar desbordamiento de la navegación con 4 botones */
+    .app-nav {
+        width: 95%;
+        padding: 6px;
+        gap: 4px;
+        bottom: 15px;
+    }
+    .nav-btn {
+        font-size: 0.65rem;
+        padding: 10px 2px;
+        border-radius: 10px;
+    }
 }
