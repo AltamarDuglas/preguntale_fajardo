@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
  * Foco: Nombre + Teléfono (1 Pregunta x Usuario)
  * SOLID - SRP: Gestión delegada de identidad y envío.
  */
-export default function HomeScreen({ navigateTo, submitQuestion }) {
+export default function HomeScreen({ navigateTo, submitQuestion, totalCount }) {
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
     const [questionText, setQuestionText] = useState('');
@@ -56,7 +56,36 @@ export default function HomeScreen({ navigateTo, submitQuestion }) {
                 <p style={{ fontWeight: 600, color: 'var(--text-accent)', fontSize: '0.9rem', margin: '0 auto', maxWidth: '300px', lineHeight: 1.3 }}>
                     "Construyamos orden sin odio y el progreso que solo la educación puede darnos."
                 </p>
-                <div style={{ marginTop: '5px', fontSize: '0.7rem', opacity: 0.7, fontWeight: 700 }}>
+
+                {/* CONTADOR EN VIVO PREMIUM */}
+                <div style={{ 
+                    marginTop: '15px', 
+                    display: 'flex', 
+                    justifyContent: 'center', 
+                    alignItems: 'center',
+                    gap: '8px'
+                }}>
+                    <div style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        background: 'white',
+                        padding: '6px 14px',
+                        borderRadius: '50px',
+                        border: '2px solid var(--text-primary)',
+                        boxShadow: '4px 4px 0 var(--text-primary)',
+                        gap: '8px'
+                    }}>
+                        <div style={{ position: 'relative', width: '10px', height: '10px' }}>
+                            <div style={{ position: 'absolute', width: '100%', height: '100%', background: '#ff5252', borderRadius: '50%', animation: 'pulse 1.5s infinite' }}></div>
+                            <div style={{ position: 'absolute', width: '100%', height: '100%', background: '#ff5252', borderRadius: '50%' }}></div>
+                        </div>
+                        <span style={{ fontSize: '0.8rem', fontWeight: 900, color: 'var(--text-primary)', letterSpacing: '0.02em' }}>
+                            {totalCount || 0} CIUDADANOS CONECTADOS
+                        </span>
+                    </div>
+                </div>
+
+                <div style={{ marginTop: '10px', fontSize: '0.7rem', opacity: 0.7, fontWeight: 700 }}>
                     PLATAFORMA DE ESCUCHA DIRECTA
                 </div>
             </div>

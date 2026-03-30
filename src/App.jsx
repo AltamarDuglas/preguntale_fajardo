@@ -10,14 +10,14 @@ import HistoryScreen from './components/screens/HistoryScreen';
 import AdminLogin from './components/admin/AdminLogin';
 import SergioDashboard from './components/admin/SergioDashboard';
 import AdminDashboard from './components/admin/AdminDashboard';
-import ReplierDashboard from './components/admin/ReplierDashboard'; // <--- IMPORT NUEVO
+import ReplierDashboard from './components/admin/ReplierDashboard';
 
 /**
  * App Root - Versión UX 4.0 (Interactúa + Informa + Sigue)
  */
 export default function App() {
   const { currentScreen, navigateTo } = useNavigation();
-  const { remaining, questions, submitQuestion, refresh } = useQuestions();
+  const { remaining, questions, submitQuestion, refresh, totalCount } = useQuestions();
   const [adminUser, setAdminUser] = useState(null);
 
   // Verificar sesión administrativa al cargar
@@ -60,6 +60,7 @@ export default function App() {
                 navigateTo={navigateTo} 
                 remaining={remaining} 
                 submitQuestion={submitQuestion} 
+                totalCount={totalCount}
             />
           )}
           {currentScreen === 'screen-proposals' && (
