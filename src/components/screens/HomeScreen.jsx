@@ -46,7 +46,7 @@ export default function HomeScreen({ navigateTo, submitQuestion, totalCount }) {
     };
 
     return (
-        <div className="screen active no-scroll-view" id="screen-home" style={{ display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'flex-start', paddingTop: '10px' }}>
+        <div className="screen active" id="screen-home" style={{ display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'flex-start', paddingTop: '10px' }}>
             
             {/* TITULAR ESTRATÉGICO (Basado en Estrategia 2026) */}
             <div className="welcome-text" style={{ textAlign: 'center', marginBottom: '12px', padding: '0 10px' }}>
@@ -91,7 +91,7 @@ export default function HomeScreen({ navigateTo, submitQuestion, totalCount }) {
             </div>
 
             {/* FORMULARIO DE IDENTIDAD / PREGUNTA */}
-            <section className="interaction-hub" style={{ flexShrink: 1, overflow: 'hidden', padding: '5px' }}>
+            <section className="interaction-hub" style={{ flexShrink: 0, padding: '5px' }}>
                 {!isIdentified ? (
                     <div className="card" style={{ 
                         background: 'white', 

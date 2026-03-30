@@ -399,7 +399,7 @@ input[type="text"]:focus, textarea:focus {
 
 /* Control de Scroll por Pantalla */
 .content:has(#screen-home) {
-    overflow-y: hidden;
+    overflow-y: auto; /* CAMBIO: Antes estaba hidden, ahora permite scroll si el formulario crece */
     padding-top: 5px;
 }
 
