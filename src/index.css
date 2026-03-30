@@ -106,7 +106,7 @@ body {
 
 .brand small {
     display: block;
-    font-size: 1rem;
+    font-size: 1.4rem;
     /* Reducido para que no compita en tamaño con el slogan */
     font-weight: 700;
     text-transform: uppercase;
