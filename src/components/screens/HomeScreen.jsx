@@ -207,7 +207,7 @@ export default function HomeScreen({ navigateTo, submitQuestion, totalCount }) {
 
                         <h4 style={{ fontSize: '1.1rem', fontWeight: 900, marginBottom: '5px', color: 'var(--text-primary)' }}>Tu Identidad Confirmada</h4>
                         <p style={{ fontSize: '0.8rem', color: 'var(--text-primary)', opacity: 0.8, fontWeight: 600, marginBottom: '15px', lineHeight: 1.3 }}>
-                            Ya estás listo para enviar tu compromiso o pregunta al equipo de Sergio Fajardo.
+                            Ya estás listo/a para enviar tu pregunta al equipo de Sergio Fajardo.
                         </p>
 
                         <button className="btn btn-primary btn-floating-cta" onClick={() => navigateTo('screen-question')} style={{
@@ -221,7 +221,7 @@ export default function HomeScreen({ navigateTo, submitQuestion, totalCount }) {
                             justifyContent: 'center',
                             gap: '10px'
                         }}>
-                            Escribir Compromiso
+                            Escribir Pregunta
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /><line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" /><polyline points="10 9 9 9 8 9" /></svg>
                         </button>
                     </div>
