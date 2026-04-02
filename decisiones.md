@@ -78,6 +78,32 @@ Para incentivar el descubrimiento de contenido profundo sin sacrificar la intera
 - **Reducción de Botones Secundarios:** Se eliminó el botón flotante masivo "Explora el Plan de Gobierno" al final del `HomeScreen`. Liberando espacio valioso.
 - **Micro-Animación Crítica:** Se aplicó una nueva animación CSS `navAttentionGlow` directamente sobre el botón `Propuestas` de la barra de navegación principal inferior (`Navigation.jsx`). Esta animación resalta sutilmente la opción con un rebote de color, induciendo al usuario a hacer clic de forma orgánica e intuitiva sin romper la limpieza del Inicio.
 
+## 15. Optimización de Activos (WebP Remastering)
+Para cumplir con los estándares de rendimiento (Core Web Vitals) y garantizar una carga instantánea en redes móviles:
+- **Conversión a WebP:** Todas las imágenes pesadas (`.png`, `.jpg`) fueron convertidas a `.webp` mediante un script con la librería `sharp`, logrando una reducción de peso superior al 60% sin pérdida perceptible de calidad.
+- **Modernización de Estilos:** Se actualizaron `index.css` y `ProposalsScreen.jsx` para servir estos activos optimizados.
+
+## 16. Cumplimiento Legal y Confianza Ciudadana (Habeas Data)
+Para profesionalizar la recolección de datos y cumplir con la normativa colombiana (Ley 1581 de 2012):
+- **Autorización Explícita:** Se integró un checkbox de aceptación de política de tratamiento de datos en el `HomeScreen`.
+- **Modal de Transparencia:** Se añadió un modal informativo que detalla el uso responsable de los datos (Nombre y WhatsApp) por parte del equipo estratégico de Sergio Fajardo.
+
+## 17. Viralidad Orgánica vía Historial de Respuestas
+Para transformar las respuestas en activos de comunicación compartibles:
+- **Rediseño Institucional:** El historial ahora presenta las respuestas como un hilo de conversación oficial, firmado digitalmente.
+- **Captura con `html2canvas`:** Se implementó una función para que el usuario capture su tarjeta de respuesta como imagen, facilitando el compartido en redes sociales y WhatsApp.
+
+## 18. Estrategia SEO y Previsualización Social
+Para maximizar el alcance del portal fuera de la pauta pagada:
+- **Metadatos Estratégicos:** Se inyectaron etiquetas Meta, Open Graph y Twitter Cards para asegurar que al compartir el link en redes, se vea una previsualización atractiva con la imagen del candidato.
+- **Estructura de Datos (Schema.org):** Se añadió JSON-LD para que los buscadores identifiquen a Sergio Fajardo como Person/Candidate vinculado al portal.
+
+## 19. Sincronización de Identidad Multinivel (Cross-Domain Persistence)
+Para resolver la pérdida de historial asociada a las Preview URLs de Vercel y el cambio de dispositivos:
+- **Recuperación por Teléfono:** El flujo de navegación ahora valida el número de teléfono contra Supabase *antes* de iniciar una nueva pregunta. Si el teléfono ya existe, el sistema restaura automáticamente el `localStorage` y redirige al ciudadano a su historial.
+- **Branding en Respuestas:** Se humanizó la respuesta oficial reemplazando el avatar genérico por la imagen remasterizada del sombrero (`fajardo_sombrero.webp`), alineando la experiencia con la identidad visual de la campaña.
+
+
 ## 15. Solución al Mobile Viewport Bug (100dvh)
 Para resolver el scroll inesperado en navegadores móviles (donde la barra de direcciones consume espacio no contabilizado por `100vh`):
 - **Dynamic Viewport Units (`dvh`):** Se implementó `height: 100dvh` en el contenedor principal, asegurando que el layout se adapte dinámicamente al área visible real.

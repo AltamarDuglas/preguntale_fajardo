@@ -56,18 +56,29 @@ export function useQuestions() {
     const submitQuestion = async (qData, onSuccess) => {
         setLoading(true);
         
+        // 🔍 RECONOCIMIENTO DE CIUDADANO (Recuperación de Identidad)
         const { data: existing } = await supabase
             .from('questions')
-            .select('id')
+            .select('*')
             .eq('phone', qData.phone)
             .maybeSingle();
 
+        // Si ya existe el número, actualizamos la identidad localmente y vamos al historial
         if (existing) {
-            alert('Ya tenemos una consulta registrada con este número telefónico.');
+            localStorage.setItem('fajardo_identity', JSON.stringify({ 
+                name: existing.name || qData.name, 
+                phone: qData.phone 
+            }));
+            
+            // Recargar las preguntas para el nuevo teléfono identificado
+            await fetchQuestions();
+            
+            if (onSuccess) onSuccess();
             setLoading(false);
             return;
         }
 
+        // Si es un usuario nuevo, procedemos con el insert normal
         const { data, error } = await supabase
             .from('questions')
             .insert([{
@@ -83,7 +94,6 @@ export function useQuestions() {
             alert('Error al enviar la pregunta.');
         } else {
             setQuestions(prev => [data, ...prev]);
-            // El totalCount se actualizará vía la suscripción Realtime automáticamente
             if (onSuccess) onSuccess();
         }
         setLoading(false);

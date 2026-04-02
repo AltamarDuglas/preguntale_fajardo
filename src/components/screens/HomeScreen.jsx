@@ -11,8 +11,10 @@ export default function HomeScreen({ navigateTo, submitQuestion, totalCount }) {
     const [questionText, setQuestionText] = useState('');
     const [isIdentified, setIsIdentified] = useState(false);
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
     const [acceptedLegal, setAcceptedLegal] = useState(false);
     const [showPolicy, setShowPolicy] = useState(false);
+    const { supabase } = require('../../lib/supabaseClient'); // Uso directo para chequeo rápido de identidad
 
     // Recuperar identidad de cache/localStorage para persistencia silenciosa
     useEffect(() => {
@@ -175,31 +177,66 @@ export default function HomeScreen({ navigateTo, submitQuestion, totalCount }) {
                             </label>
                         </div>
 
-                        <button className="btn btn-primary" onClick={() => {
-                            if (!acceptedLegal) {
-                                setError('Debes aceptar la política de tratamiento de datos para continuar.');
-                                return;
-                            }
-                            if (name.trim() && phone.trim().length >= 7) {
-                                localStorage.setItem('fajardo_identity', JSON.stringify({ name, phone }));
-                                navigateTo('screen-question');
-                            } else {
-                                setError('Por favor ingresa tu nombre y un teléfono válido (mín. 7 dígitos).');
-                            }
-                        }} style={{
-                            padding: '16px',
-                            opacity: acceptedLegal ? 1 : 0.7,
-                            fontSize: '1rem',
-                            borderRadius: '16px',
-                            width: '100%',
-                            fontWeight: 800,
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            gap: '10px'
-                        }}>
-                            Preguntar...
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+                        <button 
+                            className="btn btn-primary" 
+                            disabled={loading}
+                            onClick={async () => {
+                                if (!acceptedLegal) {
+                                    setError('Debes aceptar la política de tratamiento de datos para continuar.');
+                                    return;
+                                }
+                                
+                                if (name.trim() && phone.trim().length >= 7) {
+                                    setLoading(true);
+                                    setError('');
+                                    
+                                    try {
+                                        // 🔍 Verificar si el ciudadano ya existe en Supabase
+                                        const { data: existing, error: fetchError } = await supabase
+                                            .from('questions')
+                                            .select('*')
+                                            .eq('phone', phone.trim())
+                                            .maybeSingle();
+
+                                        if (existing) {
+                                            // ¡Reconocido! Restauramos identidad y vamos al historial
+                                            localStorage.setItem('fajardo_identity', JSON.stringify({ 
+                                                name: existing.name || name, 
+                                                phone: phone.trim() 
+                                            }));
+                                            navigateTo('screen-history');
+                                        } else {
+                                            // Usuario nuevo: Guardamos localmente y vamos a que escriba su pregunta
+                                            localStorage.setItem('fajardo_identity', JSON.stringify({ name, phone }));
+                                            navigateTo('screen-question');
+                                        }
+                                    } catch (err) {
+                                        console.error("Error reconociendo identidad:", err);
+                                        // Fallback por si falla la red: flujo normal
+                                        localStorage.setItem('fajardo_identity', JSON.stringify({ name, phone }));
+                                        navigateTo('screen-question');
+                                    } finally {
+                                        setLoading(false);
+                                    }
+                                } else {
+                                    setError('Por favor ingresa tu nombre y un teléfono válido (mín. 7 dígitos).');
+                                }
+                            }} 
+                            style={{
+                                padding: '16px',
+                                opacity: acceptedLegal && !loading ? 1 : 0.7,
+                                fontSize: '1rem',
+                                borderRadius: '16px',
+                                width: '100%',
+                                fontWeight: 800,
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                gap: '10px'
+                            }}
+                        >
+                            {loading ? 'Verificando...' : 'Preguntar...'}
+                            {!loading && <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>}
                         </button>
                     </div>
                 ) : (

@@ -151,19 +151,20 @@ export default function HistoryScreen({ questions = [], refresh }) {
                             }}>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px' }}>
                                     <div style={{ 
-                                        width: '32px', 
-                                        height: '32px', 
+                                        width: '40px', 
+                                        height: '40px', 
                                         borderRadius: '50%', 
-                                        background: 'var(--text-primary)', 
-                                        display: 'flex', 
-                                        alignItems: 'center', 
-                                        justifyContent: 'center',
-                                        color: 'white',
-                                        fontWeight: 900,
-                                        fontSize: '0.8rem',
+                                        overflow: 'hidden',
                                         border: '2px solid white',
-                                        boxShadow: '0 2px 5px rgba(0,0,0,0.1)'
-                                    }}>S</div>
+                                        boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+                                        flexShrink: 0
+                                    }}>
+                                        <img 
+                                            src="/fajardo_sombrero.webp" 
+                                            alt="Sergio Fajardo" 
+                                            style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                                        />
+                                    </div>
                                     <div>
                                         <strong style={{ display: 'block', fontSize: '0.85rem', color: 'var(--text-primary)', fontWeight: 800 }}>Sergio Fajardo</strong>
                                         <span style={{ fontSize: '0.65rem', color: 'var(--text-accent)', fontWeight: 700, textTransform: 'uppercase' }}>Respuesta Oficial</span>
