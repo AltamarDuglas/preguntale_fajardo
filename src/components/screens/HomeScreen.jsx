@@ -11,6 +11,8 @@ export default function HomeScreen({ navigateTo, submitQuestion, totalCount }) {
     const [questionText, setQuestionText] = useState('');
     const [isIdentified, setIsIdentified] = useState(false);
     const [error, setError] = useState('');
+    const [acceptedLegal, setAcceptedLegal] = useState(false);
+    const [showPolicy, setShowPolicy] = useState(false);
 
     // Recuperar identidad de cache/localStorage para persistencia silenciosa
     useEffect(() => {
@@ -159,13 +161,34 @@ export default function HomeScreen({ navigateTo, submitQuestion, totalCount }) {
                             </div>
                         )}
 
+                        {/* COMPONENTE LEGAL / HABEAS DATA */}
+                        <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', marginBottom: '15px', background: '#f8f9fa', padding: '10px', borderRadius: '12px', border: '1px solid #eee' }}>
+                            <input 
+                                type="checkbox" 
+                                id="habeasData" 
+                                checked={acceptedLegal}
+                                onChange={(e) => setAcceptedLegal(e.target.checked)}
+                                style={{ marginTop: '3px', width: '18px', height: '18px', cursor: 'pointer' }}
+                            />
+                            <label htmlFor="habeasData" style={{ fontSize: '0.72rem', lineHeight: '1.2', color: 'var(--text-primary)', fontWeight: 600, cursor: 'pointer' }}>
+                                Autorizo el tratamiento de mis datos personales según la <span onClick={(e) => { e.preventDefault(); setShowPolicy(true); }} style={{ color: 'var(--text-accent)', textDecoration: 'underline' }}>Política de Privacidad</span> y Ley de Habeas Data.
+                            </label>
+                        </div>
+
                         <button className="btn btn-primary" onClick={() => {
+                            if (!acceptedLegal) {
+                                setError('Debes aceptar la política de tratamiento de datos para continuar.');
+                                return;
+                            }
                             if (name.trim() && phone.trim().length >= 7) {
                                 localStorage.setItem('fajardo_identity', JSON.stringify({ name, phone }));
+                                navigateTo('screen-question');
+                            } else {
+                                setError('Por favor ingresa tu nombre y un teléfono válido (mín. 7 dígitos).');
                             }
-                            navigateTo('screen-question');
                         }} style={{
                             padding: '16px',
+                            opacity: acceptedLegal ? 1 : 0.7,
                             fontSize: '1rem',
                             borderRadius: '16px',
                             width: '100%',
@@ -228,6 +251,27 @@ export default function HomeScreen({ navigateTo, submitQuestion, totalCount }) {
                 )}
             </section>
 
+            {/* MODAL DE POLÍTICA DE PRIVACIDAD */}
+            {showPolicy && (
+                <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', background: 'rgba(0,0,0,0.8)', zIndex: 10000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
+                    <div className="card" style={{ background: 'white', maxWidth: '500px', width: '100%', maxHeight: '80vh', overflowY: 'auto', padding: '30px', borderRadius: '24px', border: '3px solid var(--text-primary)', position: 'relative' }}>
+                        <button onClick={() => setShowPolicy(false)} style={{ position: 'absolute', top: '15px', right: '15px', background: 'none', border: 'none', fontSize: '1.5rem', cursor: 'pointer', color: 'var(--text-primary)' }}>✕</button>
+                        <h3 style={{ color: 'var(--text-primary)', marginBottom: '15px', fontSize: '1.4rem' }}>Tratamiento de Datos Personales</h3>
+                        <div style={{ fontSize: '0.85rem', lineHeight: '1.6', color: '#444' }}>
+                            <p><strong>Responsable:</strong> Equipo Estratégico Compromiso Nacional Fajardo 2026.</p>
+                            <p><strong>Finalidad:</strong> Los datos recolectados (Nombre y WhatsApp) se utilizarán exclusivamente para:</p>
+                            <ul>
+                                <li>Responder de manera directa a sus consultas ciudadanas.</li>
+                                <li>Enviar actualizaciones sobre el Plan de Gobierno 2026.</li>
+                                <li>Gestionar compromisos ciudadanos con la campaña.</li>
+                            </ul>
+                            <p><strong>Derechos:</strong> Bajo la Ley 1581 de 2012 (Habeas Data), usted tiene derecho a conocer, actualizar, rectificar y suprimir sus datos de nuestra base de datos en cualquier momento enviando un mensaje a nuestro canal oficial.</p>
+                            <p>Al aceptar, usted declara que los datos suministrados son veraces y que autoriza expresamente este contacto.</p>
+                        </div>
+                        <button className="btn btn-primary" onClick={() => { setAcceptedLegal(true); setShowPolicy(false); }} style={{ marginTop: '20px', width: '100%' }}>Entendido y Acepto</button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

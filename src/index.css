@@ -32,7 +32,7 @@ body {
     margin: 0;
     padding: 0;
     font-family: 'Inter', system-ui, sans-serif;
-    background: var(--bg-main) url('/background.png') no-repeat center center fixed;
+    background: var(--bg-main) url('/background.webp') no-repeat center center fixed;
     background-size: cover;
     color: var(--text-primary);
     height: 100vh;
