@@ -8,7 +8,7 @@ import React from 'react';
 export default function ProposalsScreen() {
     return (
         <div className="screen active" id="screen-proposals" style={{ paddingBottom: '100px' }}>
-            
+
             {/* HERO ICONOGRÁFICO */}
             <div className="card hero-card" style={{ padding: 0, overflow: 'hidden', borderRadius: '20px', border: '3px solid var(--text-primary)', marginBottom: '32px', boxShadow: '0 12px 30px rgba(0,0,0,0.15)' }}>
                 <img src="/fajardo_sombrero.webp" alt="Sergio Fajardo" className="proposals-hero-img" />
@@ -51,7 +51,7 @@ export default function ProposalsScreen() {
                         <strong>Conexión Productiva:</strong> Alinear la formación técnica y universitaria con las necesidades de desarrollo de cada territorio.
                     </div>
                     <div className="card" style={{ background: 'white', border: '1px solid rgba(0,0,0,0.1)', padding: '16px', borderRadius: '12px', marginBottom: '10px' }}>
-                        <strong>Salud Mental:</strong> Entornos protectores en colegios para atender la crisis emocional post-pandemia en la juventud.
+                        <strong>Salud Mental:</strong> Estrategia de resiliencia juvenil para la competitividad y la paz territorial.
                     </div>
                     <div className="card" style={{ background: 'white', border: '1px solid rgba(0,0,0,0.1)', padding: '16px', borderRadius: '12px', marginBottom: '10px' }}>
                         <strong>Educación Pública de Calidad:</strong> Fortalecimiento con estándares de excelencia, gratuita y con infraestructura digna.
