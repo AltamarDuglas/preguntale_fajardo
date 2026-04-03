@@ -128,3 +128,14 @@ Para reducir la fricciÃ³n y aumentar la participaciÃ³n ciudadana segÃºn las nuev
 - **Captura In-Place:** Se implementÃ³ una lÃ³gica de detecciÃ³n de identidad en `QuestionScreen`. Si el usuario no tiene datos guardados, se muestran campos de Nombre/TelÃ©fono integrados en el formulario de la pregunta.
 - **Persistencia Silenciosa:** Los datos de identidad se guardan en el momento del envÃ­o exitoso, permitiendo que las siguientes interacciones sean instantÃ¡neas sin repetir el proceso de registro.
 - **EliminaciÃ³n de Modales:** Se evitÃ³ el uso de pantallas de confirmaciÃ³n intermedias ("Identidad Confirmada") para mantener al usuario enfocado en su mensaje al candidato.
+
+### Fix de estiramiento de imagen en html2canvas en HistoryScreen.jsx
+- **Problema:** El avatar de Sergio Fajardo se veía estirado horizontalmente solamente al momento de tomar la captura de la respuesta.
+- **Motivo:** La librería html2canvas tiene problemas conocidos al renderizar etiquetas <img> que usan la propiedad CSS object-fit: cover, ignorando la propiedad y estirando la imagen para ocupar todo el contenedor.
+- **Decisión:** Se reemplazó la etiqueta <img> por un <div> utilizando la imagen como ackgroundImage junto con ackgroundSize: 'cover' y ackgroundPosition: 'center'. html2canvas maneja perfectamente estas propiedades de fondo, garantizando que tanto en la interfaz normal como en la imagen generada, el aspecto (aspect-ratio) se mantenga correctamente sin distorsiones.
+
+
+### Rediseño Premium de la Tarjeta de Respuestas
+- **Objetivo:** Hacer que la captura de la respuesta sea más atractiva, presidencial e incite a compartir en redes sociales, de acuerdo a los principios de diseño de UI web moderna y estética de campaña.
+- **Decisión:** Se reestructuró el componente de la tarjeta respondida en HistoryScreen.jsx. Se le eliminaron los bordes duros estilo 'brutalista' y se implementó un diseño limpio con un degradado blanco-azulado (linear-gradient(160deg, #ffffff 0%, #f4f7fb 100%)). Se añadió una gran marca de agua sutil 'FAJARDO 2026' de fondo, y la estructura de la información adquirió una narrativa oficial (Comunicado Oficial, Verificado, etc). Esto fomenta enormemente la compartibilidad (shareability) aportando mucha autoridad visual a la gráfica generada.
+

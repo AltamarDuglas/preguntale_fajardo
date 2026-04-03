@@ -20,7 +20,7 @@ export default function HistoryScreen({ questions = [], refresh }) {
 
             const canvas = await html2canvas(element, {
                 backgroundColor: '#F9A01B',
-                scale: 2, // Mayor calidad
+                scale: 3, // Mayor calidad
                 logging: false,
                 useCORS: true
             });
@@ -28,7 +28,7 @@ export default function HistoryScreen({ questions = [], refresh }) {
             if (shareBtn) shareBtn.style.visibility = 'visible';
 
             const image = canvas.toDataURL("image/png");
-            
+
             // Intentar compartir vía Web Share API si está disponible
             if (navigator.share) {
                 const blob = await (await fetch(image)).blob();
@@ -84,8 +84,8 @@ export default function HistoryScreen({ questions = [], refresh }) {
                     <h2 style={{ fontSize: '1.3rem', margin: 0, color: 'var(--text-primary)', fontWeight: 900 }}>TU HISTORIAL</h2>
                     <p style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-accent)', margin: 0 }}>SALA DE RESPUESTAS OFICIALES</p>
                 </div>
-                <button 
-                    onClick={refresh} 
+                <button
+                    onClick={refresh}
                     style={{ background: 'var(--bg-main)', border: '2.5px solid var(--text-primary)', borderRadius: '12px', width: '45px', height: '45px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', padding: 0, boxShadow: '3px 3px 0 var(--text-primary)' }}
                     title="Actualizar respuestas"
                 >
@@ -95,124 +95,173 @@ export default function HistoryScreen({ questions = [], refresh }) {
 
             <div className="question-list" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
                 {questions.map((q) => (
-                    <div 
-                        key={q.id} 
+                    <div
+                        key={q.id}
                         ref={el => cardRefs.current[q.id] = el}
-                        className="question-card" 
-                        style={{ 
-                            background: 'white', 
-                            padding: '24px', 
+                        className="question-card"
+                        style={q.status === 'ANSWERED' ? {
+                            background: 'linear-gradient(160deg, #ffffff 0%, #f4f7fb 100%)',
+                            padding: '32px 24px',
+                            borderRadius: '24px',
+                            border: '1px solid rgba(0, 55, 126, 0.1)',
+                            boxShadow: '0 15px 35px rgba(0, 55, 126, 0.08)',
+                            position: 'relative',
+                            overflow: 'hidden',
+                            marginBottom: '20px'
+                        } : {
+                            background: 'white',
+                            padding: '24px',
                             borderRadius: '24px',
                             border: '3px solid var(--text-primary)',
                             boxShadow: '8px 8px 0 var(--text-primary)',
                             position: 'relative',
-                            overflow: 'hidden'
+                            overflow: 'hidden',
+                            marginBottom: '20px'
                         }}
                     >
-                        {/* HEADER DE LA TARJETA */}
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '15px' }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                <div style={{ background: 'var(--bg-main)', padding: '6px', borderRadius: '10px', border: '1.5px solid var(--text-primary)', fontSize: '0.7rem', fontWeight: 900 }}>
-                                    #{q.id.toString().slice(-4)}
-                                </div>
-                                <span style={{ fontSize: '0.75rem', fontWeight: 800, opacity: 0.6 }}>
-                                    {q.created_at ? new Date(q.created_at).toLocaleDateString() : 'RECIENTE'}
-                                </span>
-                            </div>
-                            <div style={{ 
-                                padding: '4px 10px',
-                                borderRadius: '20px',
-                                fontSize: '0.65rem',
+                        {/* MARCA DE AGUA (Solo si está respondida para darle toque Premium) */}
+                        {q.status === 'ANSWERED' && (
+                            <div style={{
+                                position: 'absolute',
+                                right: '-5%',
+                                bottom: '-5%',
+                                fontSize: '130px',
                                 fontWeight: 900,
-                                border: '1.5px solid currentColor',
-                                color: q.status === 'ANSWERED' ? '#27ae60' : 'var(--text-accent)',
-                                textTransform: 'uppercase',
-                                background: q.status === 'ANSWERED' ? '#e8f5e9' : '#fff5f5'
+                                color: 'var(--text-primary)',
+                                opacity: 0.03,
+                                pointerEvents: 'none',
+                                lineHeight: 0.8,
+                                letterSpacing: '-5px',
+                                zIndex: 0
                             }}>
-                                {q.status === 'ANSWERED' ? '✓ Respondida' : '○ En Revisión'}
+                                FAJARDO<br/>2026
                             </div>
-                        </div>
+                        )}
+
+                        {/* HEADER DE LA TARJETA */}
+                        {q.status === 'ANSWERED' ? (
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '20px', position: 'relative', zIndex: 1, borderBottom: '1px solid rgba(0,55,126,0.1)', paddingBottom: '15px' }}>
+                                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                    <span style={{ fontSize: '0.65rem', fontWeight: 900, color: 'var(--text-accent)', letterSpacing: '1px', textTransform: 'uppercase' }}>Comunicado Oficial</span>
+                                    <span style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-primary)' }}>Compromiso Ciudadano</span>
+                                </div>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '5px', background: '#e8f5e9', padding: '6px 12px', borderRadius: '20px', border: '1px solid #27ae60' }}>
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#27ae60" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                    <span style={{ fontSize: '0.65rem', fontWeight: 900, color: '#27ae60', letterSpacing: '0.5px' }}>VERIFICADO</span>
+                                </div>
+                            </div>
+                        ) : (
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '15px' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                    <span style={{ fontSize: '0.75rem', fontWeight: 800, opacity: 0.6 }}>
+                                        {q.created_at ? new Date(q.created_at).toLocaleDateString() : 'RECIENTE'}
+                                    </span>
+                                </div>
+                                <div style={{
+                                    padding: '4px 10px',
+                                    borderRadius: '20px',
+                                    fontSize: '0.65rem',
+                                    fontWeight: 900,
+                                    border: '1.5px solid currentColor',
+                                    color: 'var(--text-accent)',
+                                    textTransform: 'uppercase',
+                                    background: '#fff5f5'
+                                }}>
+                                    ○ En Revisión
+                                </div>
+                            </div>
+                        )}
 
                         {/* PREGUNTA CIUDADANA */}
-                        <div style={{ marginBottom: '20px' }}>
-                            <p style={{ fontSize: '0.7rem', fontWeight: 900, color: 'var(--text-accent)', marginBottom: '5px', textTransform: 'uppercase' }}>Tu Pregunta:</p>
-                            <p style={{ fontSize: '1.05rem', fontWeight: 700, margin: 0, lineHeight: 1.4, color: 'var(--text-primary)' }}>"{q.text}"</p>
-                        </div>
-                        
+                        {q.status === 'ANSWERED' ? (
+                            <div style={{ position: 'relative', zIndex: 1, marginBottom: '25px', paddingLeft: '15px', borderLeft: '3px solid var(--text-accent)' }}>
+                                <p style={{ fontSize: '0.65rem', fontWeight: 900, color: 'var(--text-primary)', opacity: 0.7, marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Pregunta del Ciudadano:</p>
+                                <p style={{ fontSize: '1.1rem', fontStyle: 'italic', fontWeight: 600, margin: 0, lineHeight: 1.4, color: '#444' }}>"{q.text}"</p>
+                            </div>
+                        ) : (
+                            <div style={{ marginBottom: '20px' }}>
+                                <p style={{ fontSize: '0.7rem', fontWeight: 900, color: 'var(--text-accent)', marginBottom: '5px', textTransform: 'uppercase' }}>Tu Pregunta:</p>
+                                <p style={{ fontSize: '1.05rem', fontWeight: 700, margin: 0, lineHeight: 1.4, color: 'var(--text-primary)' }}>"{q.text}"</p>
+                            </div>
+                        )}
+
                         {/* RESPUESTA OFICIAL */}
                         {q.status === 'ANSWERED' && q.answer ? (
-                            <div style={{ 
-                                marginTop: '20px', 
-                                padding: '20px', 
-                                background: 'linear-gradient(135deg, #fef9f1 0%, #fff 100%)', 
-                                borderRadius: '18px',
-                                border: '2px dashed var(--bg-main)',
-                                position: 'relative'
+                            <div style={{
+                                position: 'relative',
+                                zIndex: 1,
+                                background: 'white',
+                                padding: '24px',
+                                borderRadius: '16px',
+                                border: '1px solid rgba(0,55,126,0.06)',
+                                boxShadow: '0 8px 25px rgba(0,0,0,0.04)'
                             }}>
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px' }}>
-                                    <div style={{ 
-                                        width: '40px', 
-                                        height: '40px', 
-                                        borderRadius: '50%', 
-                                        overflow: 'hidden',
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '15px' }}>
+                                    {/* Contenedor del avatar de Sergio Fajardo para la captura */}
+                                    <div style={{
+                                        width: '46px',
+                                        height: '46px',
+                                        borderRadius: '50%',
                                         border: '2px solid white',
-                                        boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
-                                        flexShrink: 0
-                                    }}>
-                                        <img 
-                                            src="/fajardo_sombrero.webp" 
-                                            alt="Sergio Fajardo" 
-                                            style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
-                                        />
+                                        boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+                                        flexShrink: 0,
+                                        backgroundImage: 'url(/fajardo_sombrero.webp)',
+                                        backgroundSize: 'cover',
+                                        backgroundPosition: 'center',
+                                        backgroundRepeat: 'no-repeat'
+                                    }} title="Sergio Fajardo" aria-label="Avatar de Sergio Fajardo">
                                     </div>
                                     <div>
-                                        <strong style={{ display: 'block', fontSize: '0.85rem', color: 'var(--text-primary)', fontWeight: 800 }}>Sergio Fajardo</strong>
-                                        <span style={{ fontSize: '0.65rem', color: 'var(--text-accent)', fontWeight: 700, textTransform: 'uppercase' }}>Respuesta Oficial</span>
+                                        <strong style={{ display: 'block', fontSize: '0.95rem', color: 'var(--text-primary)', fontWeight: 900 }}>Sergio Fajardo</strong>
+                                        <span style={{ fontSize: '0.65rem', color: 'var(--text-accent)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Candidato Presidencial</span>
                                     </div>
                                 </div>
-                                
-                                <p style={{ fontSize: '1rem', color: '#333', lineHeight: 1.5, margin: 0, fontWeight: 500 }}>
+
+                                <p style={{ fontSize: '1.05rem', color: '#1a1a1a', lineHeight: 1.6, margin: 0, fontWeight: 500 }}>
                                     {q.answer}
                                 </p>
 
-                                <div style={{ marginTop: '15px', borderTop: '1px solid rgba(0,0,0,0.05)', paddingTop: '10px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <div style={{ opacity: 0.4, fontSize: '0.6rem', fontWeight: 700 }}>VERIFICADO COMPROMISO 2026</div>
-                                    <button 
+                                <div style={{ marginTop: '20px', borderTop: '1px dashed rgba(0,55,126,0.1)', paddingTop: '15px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                    <div style={{ opacity: 0.5, fontSize: '0.6rem', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '0.5px' }}>
+                                        GENERADO DESDE EL PORTAL OFICIAL
+                                    </div>
+                                    <button
                                         className="btn-share-hidden"
                                         onClick={() => handleShare(q.id, q.answer)}
-                                        style={{ 
-                                            background: 'var(--text-primary)', 
-                                            color: 'white', 
-                                            border: 'none', 
-                                            padding: '8px 12px', 
-                                            borderRadius: '10px', 
-                                            fontSize: '0.7rem', 
-                                            fontWeight: 800, 
+                                        style={{
+                                            background: 'linear-gradient(90deg, var(--text-primary) 0%, #004d99 100%)',
+                                            color: 'white',
+                                            border: 'none',
+                                            padding: '8px 16px',
+                                            borderRadius: '99px',
+                                            fontSize: '0.75rem',
+                                            fontWeight: 800,
                                             cursor: 'pointer',
                                             display: 'flex',
                                             alignItems: 'center',
                                             gap: '6px',
-                                            boxShadow: '0 4px 10px rgba(0, 55, 126, 0.2)'
+                                            boxShadow: '0 4px 12px rgba(0, 55, 126, 0.25)',
+                                            transition: 'transform 0.2s ease, box-shadow 0.2s ease'
                                         }}
                                     >
-                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" /><polyline points="16 6 12 2 8 6" /><line x1="12" y1="2" x2="12" y2="15" /></svg>
                                         COMPARTIR
                                     </button>
                                 </div>
                             </div>
                         ) : q.status === 'PENDING' ? (
-                            <div style={{ 
-                                marginTop: '15px', 
-                                padding: '15px', 
-                                background: '#f8f9fa', 
-                                borderRadius: '15px', 
+                            <div style={{
+                                marginTop: '15px',
+                                padding: '15px',
+                                background: '#f8f9fa',
+                                borderRadius: '15px',
                                 border: '1.5px solid #eee',
-                                display: 'flex', 
-                                alignItems: 'center', 
+                                display: 'flex',
+                                alignItems: 'center',
                                 gap: '10px',
-                                fontSize: '0.8rem', 
-                                color: '#666', 
-                                fontWeight: 600 
+                                fontSize: '0.8rem',
+                                color: '#666',
+                                fontWeight: 600
                             }}>
                                 <div className="spinner-mini" style={{ width: '16px', height: '16px', border: '2px solid #ddd', borderTop: '2px solid var(--text-accent)', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
                                 Analizando tu consulta para darte una respuesta seria...
@@ -221,7 +270,7 @@ export default function HistoryScreen({ questions = [], refresh }) {
                     </div>
                 ))}
             </div>
-            
+
             <style>{`
                 @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
             `}</style>
