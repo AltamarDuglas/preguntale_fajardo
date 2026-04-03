@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { supabase } from '../../lib/supabaseClient';
 
 /**
  * HomeScreen UX 4.0 - Identidad Ciudadana
@@ -14,7 +15,6 @@ export default function HomeScreen({ navigateTo, submitQuestion, totalCount }) {
     const [loading, setLoading] = useState(false);
     const [acceptedLegal, setAcceptedLegal] = useState(false);
     const [showPolicy, setShowPolicy] = useState(false);
-    const { supabase } = require('../../lib/supabaseClient'); // Uso directo para chequeo rápido de identidad
 
     // Recuperar identidad de cache/localStorage para persistencia silenciosa
     useEffect(() => {
@@ -50,14 +50,14 @@ export default function HomeScreen({ navigateTo, submitQuestion, totalCount }) {
     };
 
     return (
-        <div className="screen active" id="screen-home" style={{ display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'flex-start', gap: '8px', paddingTop: '8px' }}>
+        <div className="screen active" id="screen-home">
 
             {/* TITULAR ESTRATÉGICO (Basado en Estrategia 2026) */}
-            <div className="welcome-text" style={{ textAlign: 'center', marginBottom: '5px', padding: '0 10px' }}>
-                <h3 style={{ fontSize: '1.4rem', color: 'var(--text-primary)', fontWeight: 900, lineHeight: 1.1, textTransform: 'uppercase', marginBottom: '5px' }}>
+            <div className="welcome-text">
+                <h3>
                     CAMBIO SERIO <br /> Y SEGURO
                 </h3>
-                <p style={{ fontWeight: 600, color: 'var(--text-accent)', fontSize: '1rem', margin: '0 auto', maxWidth: '300px', lineHeight: 1.3 }}>
+                <p>
                     "Construyamos orden sin odio y el progreso que solo la educación puede darnos."
                 </p>
 
@@ -95,7 +95,7 @@ export default function HomeScreen({ navigateTo, submitQuestion, totalCount }) {
             </div>
 
             {/* FORMULARIO DE IDENTIDAD / PREGUNTA */}
-            <section className="interaction-hub" style={{ flexShrink: 0, padding: '0px' }}>
+            <section className="interaction-hub">
                 {!isIdentified ? (
                     <div className="card" style={{
                         background: 'white',

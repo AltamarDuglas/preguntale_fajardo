@@ -10,8 +10,8 @@ export default function ProposalsScreen() {
         <div className="screen active" id="screen-proposals" style={{ paddingBottom: '100px' }}>
             
             {/* HERO ICONOGRÁFICO */}
-            <div className="card" style={{ padding: 0, overflow: 'hidden', borderRadius: '20px', border: '3px solid var(--text-primary)', marginBottom: '32px', boxShadow: '0 12px 30px rgba(0,0,0,0.15)' }}>
-                <img src="/fajardo_sombrero.webp" alt="Sergio Fajardo" style={{ width: '100%', display: 'block' }} />
+            <div className="card hero-card" style={{ padding: 0, overflow: 'hidden', borderRadius: '20px', border: '3px solid var(--text-primary)', marginBottom: '32px', boxShadow: '0 12px 30px rgba(0,0,0,0.15)' }}>
+                <img src="/fajardo_sombrero.webp" alt="Sergio Fajardo" className="proposals-hero-img" />
                 <div style={{ padding: '20px', background: 'white', borderTop: '3px solid var(--text-primary)', textAlign: 'center' }}>
                     <h2 style={{ margin: 0, fontSize: '1.5rem', color: 'var(--text-primary)' }}>Nuestro Compromiso con Colombia</h2>
                     <p style={{ margin: '8px 0 0', fontWeight: 700, color: 'var(--text-accent)' }}>Cambio Serio y Seguro</p>

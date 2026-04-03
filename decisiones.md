@@ -103,6 +103,13 @@ Para resolver la pérdida de historial asociada a las Preview URLs de Vercel y e
 - **Recuperación por Teléfono:** El flujo de navegación ahora valida el número de teléfono contra Supabase *antes* de iniciar una nueva pregunta. Si el teléfono ya existe, el sistema restaura automáticamente el `localStorage` y redirige al ciudadano a su historial.
 - **Branding en Respuestas:** Se humanizó la respuesta oficial reemplazando el avatar genérico por la imagen remasterizada del sombrero (`fajardo_sombrero.webp`), alineando la experiencia con la identidad visual de la campaña.
 
+## 20. Arquitectura de Dos Columnas (Desktop UX 4.0)
+Para optimizar el portal en pantallas de escritorio y evitar el solapamiento de elementos interactivos con la navegación inferior:
+- **Layout Bilateral:** En dispositivos con ancho superior a 1024px, la `HomeScreen` transforma su disposición vertical a una horizontal de dos columnas. El área de mensaje (Hero) se ubica a la izquierda y el eje de acción (Formulario/Identidad) a la derecha.
+- **Alineación Simétrica:** Se ajustaron los pesos tipográficos y se centraron los elementos del contador y el mensaje de bienvenida en escritorio, logrando una composición equilibrada y estética entre el Hero y el Formulario.
+- **Solución al Solapamiento:** Al distribuir el contenido a lo ancho, el botón "Preguntar" siempre permanece visible y accesible, eliminando la necesidad de scroll vertical en la mayoría de monitores.
+
+
 
 ## 15. Solución al Mobile Viewport Bug (100dvh)
 Para resolver el scroll inesperado en navegadores móviles (donde la barra de direcciones consume espacio no contabilizado por `100vh`):
